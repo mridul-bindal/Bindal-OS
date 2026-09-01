@@ -1,0 +1,5 @@
+implement a simple search engine 
+understand the working of search engine
+also shows search history 
+frontend = client side 
+backend = server side 
