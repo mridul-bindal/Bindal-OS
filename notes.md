@@ -5,13 +5,19 @@ frontend = client side
 backend = server side 
 
 
-why real search engines dont read every file 
+#################################################################################################################
+
+why real search engines dont read every file  ?
+
+#################################################################################################################
+
 x terms 
 y documents 
 z words 
 then total time complexity would be O(x*y*z) for every search query 
 
 Therefore we use inverted indexs
+![alt text](inverted_index.png)
 inverted index time complexity becomes O(x*z) number of docs the word is present in
 
 using inverted index
@@ -21,3 +27,20 @@ using inverted index
 7.700000423938036e-06
 
 it is clearly seen now that the code now doesnt need to check for every word in every document and now uses inverted indexes that is each word is now already mapped to its corrosponding document and is then checked accordingly 
+
+####################################################################################################################
+
+Search Engine finds result but they are stupid 
+
+####################################################################################################################
+
+understanding the ranking system was quite easy we just need the number of time the particular word was in the document and we rank them accordingly as of now 
+
+####################################################################################################################
+
+Working on snippets 
+
+
+
+
+
