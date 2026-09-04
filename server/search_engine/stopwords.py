@@ -1,3 +1,4 @@
+import stopwords
 try:
     from stopwords import get_stopwords
 except ImportError:
@@ -37,3 +38,8 @@ def remove_stopwords(query: str) -> str:
     tokens = query.split()
     filtered_tokens = [token for token in tokens if token.lower() not in STOPWORDS]
     return " ".join(filtered_tokens)
+
+
+def remove_stopword_tokens(tokens: list[str]) -> list[str]:
+    """Filter already-tokenized text before it is added to a search index."""
+    return [token for token in tokens if token not in STOPWORDS]

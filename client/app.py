@@ -6,9 +6,11 @@ from server import load_files
 from server.search_engine import (
     build_inverted_index,
     build_ranked_inverted_index,
+    build_tfidf_index,
     remove_stopwords,
     save_index,
     search_ranked_inverted_index_with_snippets,
+    search_tfidf,
 )
 from server.search_engine.benchmark import measure_time
 
@@ -32,15 +34,22 @@ def run(data_path: Path | None = None) -> None:
 
     file_data = load_files(str(data_path))
     inverted_index = build_inverted_index(file_data)
-    save_index(inverted_index, data_path / "inverted_index.json")
+    save_index(inverted_index, data_path / "inverted_index.json", overwrite=True)
     ranked_inverted_index = build_ranked_inverted_index(file_data)
-    save_index(ranked_inverted_index, data_path / "ranked_inverted_index.json")
+    save_index(
+        ranked_inverted_index,
+        data_path / "ranked_inverted_index.json",
+        overwrite=True,
+    )
+    tfidf_index = build_tfidf_index(file_data)
+    save_index(tfidf_index, data_path / "tfidf_index.json", overwrite=True)
     search_methods: dict[str, Callable[[str], list[dict[str, object]]]] = {
         "ranked_inverted_index_with_snippets": lambda query: (
             search_ranked_inverted_index_with_snippets(
                 query, ranked_inverted_index, file_data
             )
-        )
+        ),
+        "tfidf": lambda query: search_tfidf(query, tfidf_index),
     }
 
     for query in QUERIES:
@@ -52,7 +61,10 @@ def run(data_path: Path | None = None) -> None:
             print(f"TIME_TAKEN : {time_taken}")
             print("QUERY :", cleaned_query)
             for item in result:
-                print(f"FILE_NAME : {item['file_name']}")
-                print(f"SNIPPET : {item['snippet']}")
+                if isinstance(item, dict):
+                    print(f"FILE_NAME : {item['file_name']}")
+                    print(f"SNIPPET : {item['snippet']}")
+                else:
+                    print(f"FILE_NAME : {item}")
                 print("-" * 100)
             print("-" * 100)

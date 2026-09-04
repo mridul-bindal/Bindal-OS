@@ -17,9 +17,11 @@ def _make_json_serializable(value: Any) -> Any:
     return value
 
 
-def save_index(index_data: dict[str, Any], path: str | Path) -> None:
+def save_index(
+    index_data: dict[str, Any], path: str | Path, *, overwrite: bool = False
+) -> None:
     output_path = Path(path)
-    if output_path.exists():
+    if output_path.exists() and not overwrite:
         return
 
     output_path.parent.mkdir(parents=True, exist_ok=True)

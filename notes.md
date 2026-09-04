@@ -156,6 +156,26 @@ Original query:  the operating system and processes
 Useful terms:    operating system processes
 ```
 
+
+### TF-IDF 
+Term frequency Inverse DOC FREQUENCY
+LEST ASSUME a query system NLP 
+AND 
+two text files 
+filwe1.txt -> {"system", "system" , ....} and 
+file2.txt -> {"system", "nlp" , "modules"}
+
+normal frequency would rank the first one above and keep the second one below which is a weaker retreival 
+
+therefore we use tf-idf where idf is how rare this term is across all documents 
+final score = term_frequency * inverse_document_frequency
+
+in our code = result[tocken][file_name ] = term_frequency * udf
+
+idf = math.log((total_docs+1)/(document_frequency+1))
+
+
+
 Without stopword removal, a query such as `the database is corrupted` could
 give too much weight to a document containing many repeated `the` and `is`
 tokens. A document containing the meaningful terms `database corrupted`
@@ -178,10 +198,9 @@ The project first tries to load English stopwords from the installed
 not available, which allows `python main.py` to run without the optional
 package installed in the active interpreter.
 
-Currently, stopwords are removed from queries only. Dataset documents are
-still tokenized and indexed without stopword removal. Applying the same filter
-to document tokens would make the index smaller, but both sides must use the
-same preprocessing rules for reliable matching.
+Stopwords are removed from both queries and document tokens before the
+inverted, ranked, and TF-IDF indexes are built. The original document text is
+kept unchanged so snippets still show natural sentences.
 
 Current implementation detail: removal is whitespace-based, so punctuation can
 prevent an exact match. For example, `the,` is not treated exactly like `the`.
@@ -189,8 +208,10 @@ The tokenizer already handles punctuation for search, so a future improvement
 would be to tokenize the query first and remove stopwords from those tokens.
 
 Python sets are converted to sorted lists before JSON serialization. The save
-function does not overwrite an existing index file. The generated JSON files
-are ignored by Git because they can be recreated from the dataset.
+function does not overwrite an existing index file by default. The client
+explicitly overwrites its generated index files when rebuilding them. The
+generated JSON files are ignored by Git because they can be recreated from the
+dataset.
 
 Important: data-change detection and automatic index rebuilding are not yet
 implemented. If a `.txt` dataset file changes, delete the generated JSON index
@@ -206,6 +227,7 @@ files manually before rebuilding them.
 - Duplicate-word handling
 - Basic and inverted-index searches
 - Ranking behavior
+- TF-IDF ranking, including a common term (`system`) and a rare term (`nlp`)
 - Empty and unknown queries
 - Snippet generation
 - Index file creation and non-overwriting behavior
@@ -222,8 +244,8 @@ for temporary files and cache data.
 - Query matching uses simple token overlap and does not support phrases,
   stemming, fuzzy matching, or boolean operators. Stopword removal currently
   applies to queries only.
-- Ranking is based only on raw token frequency; it does not use TF-IDF or a
-  more advanced relevance model.
+- TF-IDF uses exact token matches and summed term weights; it does not yet use
+  document-length normalization or a more advanced relevance model.
 - Index freshness checking is not implemented yet.
 - The dataset is loaded into memory at startup.
 

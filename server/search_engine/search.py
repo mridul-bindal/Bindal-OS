@@ -41,6 +41,20 @@ def search_ranked_inverted_index(
     return [file_name for file_name, _ in ranked_documents]
 
 
+def search_tfidf(
+    query: str, tfidf_index: dict[str, dict[str, float]]
+) -> list[str]:
+    """Return documents ranked by the sum of their matching TF-IDF weights."""
+    tokens = set(tokenize(query))
+    scores: dict[str, float] = {}
+    for token in tokens:
+        for file_name, weight in tfidf_index.get(token, {}).items():
+            scores[file_name] = scores.get(file_name, 0.0) + weight
+
+    ranked_documents = sorted(scores.items(), key=lambda item: item[1], reverse=True)
+    return [file_name for file_name, _ in ranked_documents]
+
+
 def search_ranked_inverted_index_with_snippets(
     query: str,
     ranked_inverted_index: dict[str, dict[str, int]],

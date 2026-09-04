@@ -5,11 +5,13 @@ from server.search_engine.indexing import (
     build_inverted_index,
     build_ranked_inverted_index,
 )
+from server.search_engine.calculate_idf import build_tfidf_index
 from server.search_engine.search import (
     basic_search,
     search_ranked_inverted_index,
     search_ranked_inverted_index_with_snippets,
     search_with_inverted_index,
+    search_tfidf,
 )
 from server.search_engine.snippets import create_snippet
 from server.search_engine.saveIndex import save_index
@@ -47,6 +49,22 @@ def test_build_inverted_index_does_not_duplicate_a_file_for_repeated_words():
     index = build_inverted_index({"one.txt": "database database database"})
 
     assert index == {"database": {"one.txt"}}
+
+
+def test_indexes_exclude_stopwords_from_document_tokens():
+    file_data = {
+        "one.txt": "the database and the index",
+        "two.txt": "a database",
+    }
+
+    inverted_index = build_inverted_index(file_data)
+    ranked_index = build_ranked_inverted_index(file_data)
+    tfidf_index = build_tfidf_index(file_data)
+
+    assert "the" not in inverted_index
+    assert "and" not in ranked_index
+    assert "a" not in tfidf_index
+    assert inverted_index["database"] == {"one.txt", "two.txt"}
 
 
 def test_build_ranked_inverted_index_counts_word_frequency():
@@ -107,6 +125,19 @@ def test_ranked_search_orders_files_by_matching_frequency():
 
 def test_ranked_search_returns_empty_for_unknown_query():
     assert search_ranked_inverted_index("redis", {}) == []
+
+
+def test_tfidf_ranks_the_document_with_the_rare_query_term_first():
+    # Mirrors the notes example: "system" is common, while "nlp" is rare.
+    file_data = {
+        "file1.txt": "system system",
+        "file2.txt": "system nlp modules",
+    }
+
+    tfidf_index = build_tfidf_index(file_data)
+
+    assert tfidf_index["system"] == {"file1.txt": 0.0, "file2.txt": 0.0}
+    assert search_tfidf("system nlp", tfidf_index) == ["file2.txt", "file1.txt"]
 
 
 def test_create_snippet_limits_results_and_removes_newlines():
