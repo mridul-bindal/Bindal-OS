@@ -11,6 +11,8 @@ __pycache__/
 
 # Test, type-checker, and linter caches
 .pytest_cache/
+.pytest_tmp/
+.pytest_cache_local/
 .mypy_cache/
 .pyre/
 .ruff_cache/

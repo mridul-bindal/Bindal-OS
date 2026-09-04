@@ -1,0 +1,18 @@
+[project]
+name = "bindal-os"
+version = "0.1.0"
+description = "A simple document search engine with inverted indexing"
+requires-python = ">=3.9"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "test",
+]
+addopts = "--basetemp=.pytest_tmp"
+cache_dir = ".pytest_cache_local"

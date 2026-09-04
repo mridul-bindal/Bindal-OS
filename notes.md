@@ -40,6 +40,32 @@ understanding the ranking system was quite easy we just need the number of time 
 
 Working on snippets 
 
+Added the snippets functionality basically after the word is found at any index our logci seached for a corrosponding start and end of its index giving us the answers 
+
+####################################################################################################################
+
+Folder Structure 
+
+Bindal-OS/
+├── main.py
+├── client/
+│   ├── __init__.py
+│   └── app.py
+├── server/
+│   ├── __init__.py
+│   ├── file_loader.py
+│   └── search_engine/
+│       ├── __init__.py
+│       ├── tokenizer.py
+│       ├── indexing.py
+│       ├── search.py
+│       ├── snippets.py
+│       └── benchmark.py
+└── data/
+
+Now the code has an expandable and scalable folder structure 
+
+####################################################################################################################
 
 
 
