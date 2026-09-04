@@ -1,51 +1,31 @@
-implement a simple search engine 
-understand the working of search engine
-also shows search history 
-frontend = client side 
-backend = server side 
+# Bindal-OS Search Engine Notes
 
+## Project Purpose
 
-#################################################################################################################
+Bindal-OS is a small document search engine built to demonstrate how search
+engines tokenize documents, build indexes, rank results, and display snippets.
+The current dataset contains ten MongoDB learning documents in `data/`.
 
-why real search engines dont read every file  ?
+## How To Run
 
-#################################################################################################################
+Run the application from the project root:
 
-x terms 
-y documents 
-z words 
-then total time complexity would be O(x*y*z) for every search query 
+```powershell
+python main.py
+```
 
-Therefore we use inverted indexs
-![alt text](inverted_index.png)
-inverted index time complexity becomes O(x*z) number of docs the word is present in
+Run the tests with:
 
-using inverted index
-['01_introduction.txt', '02_collections_documents.txt', '03_crud_operations.txt', '04_indexing.txt', '05_aggregation.txt', '06_data_modeling.txt', '07_replication.txt', '08_sharding.txt', '09_security.txt', '10_backup_monitoring.txt']
-0.0012069999938830733
-['06_data_modeling.txt', '09_security.txt', '10_backup_monitoring.txt', '02_collections_documents.txt', '04_indexing.txt', '03_crud_operations.txt', '08_sharding.txt', '05_aggregation.txt', '07_replication.txt', '01_introduction.txt']
-7.700000423938036e-06
+```powershell
+uv run python -m pytest
+```
 
-it is clearly seen now that the code now doesnt need to check for every word in every document and now uses inverted indexes that is each word is now already mapped to its corrosponding document and is then checked accordingly 
+The project uses `pyproject.toml` for metadata, dependencies, and pytest
+configuration. The development dependency is `pytest`.
 
-####################################################################################################################
+## Folder Structure
 
-Search Engine finds result but they are stupid 
-
-####################################################################################################################
-
-understanding the ranking system was quite easy we just need the number of time the particular word was in the document and we rank them accordingly as of now 
-
-####################################################################################################################
-
-Working on snippets 
-
-Added the snippets functionality basically after the word is found at any index our logci seached for a corrosponding start and end of its index giving us the answers 
-
-####################################################################################################################
-
-Folder Structure 
-
+```text
 Bindal-OS/
 ├── main.py
 ├── client/
@@ -56,17 +36,155 @@ Bindal-OS/
 │   ├── file_loader.py
 │   └── search_engine/
 │       ├── __init__.py
-│       ├── tokenizer.py
+│       ├── benchmark.py
 │       ├── indexing.py
+│       ├── saveIndex.py
 │       ├── search.py
 │       ├── snippets.py
-│       └── benchmark.py
-└── data/
+│       └── tokenizer.py
+├── data/
+├── test/
+│   └── engine_test.py
+├── pyproject.toml
+├── uv.lock
+└── .gitignore
+```
 
-Now the code has an expandable and scalable folder structure 
+`main.py` is only the application entry point. It imports `run` from the
+client package.
 
-####################################################################################################################
+`client/app.py` is the current console frontend. It loads the dataset, builds
+the indexes, defines sample MongoDB queries, runs searches, and prints timing,
+filenames, and snippets.
 
+`server/file_loader.py` is responsible for reading only `.txt` documents from
+the data directory. Generated JSON indexes are intentionally not treated as
+search documents.
 
+## Search Pipeline
 
+The application follows this flow:
+
+```text
+TXT documents
+    ↓
+file loader
+    ↓
+tokenizer
+    ↓
+inverted indexes
+    ↓
+ranked search
+    ↓
+snippets and console output
+```
+
+### Tokenization
+
+`tokenizer.py` converts text to lowercase and extracts letters and numbers
+with a regular expression. For example, `"MongoDB, Version 7.0"` becomes:
+
+```python
+["mongodb", "version", "7", "0"]
+```
+
+Punctuation is removed and token matching is case-insensitive.
+
+### Standard Inverted Index
+
+`build_inverted_index()` maps each token to a set of filenames:
+
+```python
+{
+    "mongodb": {"01_introduction.txt", "02_collections_documents.txt"},
+    "sharding": {"08_sharding.txt"},
+}
+```
+
+Sets prevent the same filename from being stored multiple times for one word.
+`search_with_inverted_index()` uses this mapping instead of scanning every
+document.
+
+### Ranked Inverted Index
+
+`build_ranked_inverted_index()` stores the frequency of each token per file:
+
+```python
+{
+    "database": {
+        "01_introduction.txt": 4,
+        "04_indexing.txt": 2,
+    }
+}
+```
+
+`search_ranked_inverted_index()` adds the frequencies for matching query
+tokens. Documents with larger scores appear first. The current implementation
+matches documents containing *any* query token, rather than requiring every
+query token.
+
+### Snippets
+
+`create_snippet()` finds query terms in the document and returns short text
+windows around them. It removes newlines and returns at most three snippets by
+default. The ranked snippet search returns the filename, score, and snippets.
+
+### Timing
+
+`benchmark.py` measures a search function with `time.perf_counter()` and
+returns both the function result and elapsed time.
+
+## Index Persistence
+
+`saveIndex.py` stores these generated files:
+
+```text
+data/inverted_index.json
+data/ranked_inverted_index.json
+```
+
+Python sets are converted to sorted lists before JSON serialization. The save
+function does not overwrite an existing index file. The generated JSON files
+are ignored by Git because they can be recreated from the dataset.
+
+Important: data-change detection and automatic index rebuilding are not yet
+implemented. If a `.txt` dataset file changes, delete the generated JSON index
+files manually before rebuilding them.
+
+## Tests
+
+`test/engine_test.py` tests the major behavior:
+
+- Tokenization and punctuation handling
+- File loading and directory ignoring
+- Standard and ranked index construction
+- Duplicate-word handling
+- Basic and inverted-index searches
+- Ranking behavior
+- Empty and unknown queries
+- Snippet generation
+- Index file creation and non-overwriting behavior
+- Search timing
+
+The pytest configuration points to `test/` and uses local ignored directories
+for temporary files and cache data.
+
+## Current Limitations
+
+- The frontend is currently a console application; there is no web UI yet.
+- Search history is not implemented yet, although it was part of the original
+  project idea.
+- Query matching uses simple token overlap and does not support phrases,
+  stemming, stop-word removal, fuzzy matching, or boolean operators.
+- Ranking is based only on raw token frequency; it does not use TF-IDF or a
+  more advanced relevance model.
+- Index freshness checking is not implemented yet.
+- The dataset is loaded into memory at startup.
+
+## Git Notes
+
+Commit source code, dataset text files, `pyproject.toml`, `uv.lock`, tests, and
+documentation. Do not commit `.venv/`, Python caches, pytest caches, or
+generated index JSON files. Never place passwords, API keys, or other secrets
+in `pyproject.toml` or the repository.
 

@@ -22,3 +22,4 @@ def build_ranked_inverted_index(
             ranked_index.setdefault(token, {}).setdefault(file_name, 0)
             ranked_index[token][file_name] += 1
     return ranked_index
+

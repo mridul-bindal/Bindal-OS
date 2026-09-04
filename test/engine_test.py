@@ -12,6 +12,7 @@ from server.search_engine.search import (
     search_with_inverted_index,
 )
 from server.search_engine.snippets import create_snippet
+from server.search_engine.saveIndex import save_index
 from server.search_engine.tokenizer import tokenize
 
 
@@ -143,3 +144,20 @@ def test_measure_time_returns_function_result_and_elapsed_time():
 
     assert result == "SEARCH"
     assert elapsed >= 0
+
+
+def test_save_index_creates_a_missing_file(tmp_path):
+    index_path = tmp_path / "index.json"
+
+    save_index({"mongodb": {"one.txt"}}, index_path)
+
+    assert index_path.read_text(encoding="utf-8")
+
+
+def test_save_index_does_not_overwrite_existing_file(tmp_path):
+    index_path = tmp_path / "index.json"
+    index_path.write_text("existing index", encoding="utf-8")
+
+    save_index({"new": {"file.txt"}}, index_path)
+
+    assert index_path.read_text(encoding="utf-8") == "existing index"

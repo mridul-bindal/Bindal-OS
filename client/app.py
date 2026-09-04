@@ -6,6 +6,7 @@ from server import load_files
 from server.search_engine import (
     build_inverted_index,
     build_ranked_inverted_index,
+    save_index,
     search_ranked_inverted_index_with_snippets,
 )
 from server.search_engine.benchmark import measure_time
@@ -30,7 +31,9 @@ def run(data_path: Path | None = None) -> None:
 
     file_data = load_files(str(data_path))
     inverted_index = build_inverted_index(file_data)
+    save_index(inverted_index, data_path / "inverted_index.json")
     ranked_inverted_index = build_ranked_inverted_index(file_data)
+    save_index(ranked_inverted_index, data_path / "ranked_inverted_index.json")
     search_methods: dict[str, Callable[[str], list[dict[str, object]]]] = {
         "ranked_inverted_index_with_snippets": lambda query: (
             search_ranked_inverted_index_with_snippets(

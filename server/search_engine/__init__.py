@@ -7,6 +7,7 @@ from .search import (
     search_with_inverted_index,
 )
 from .snippets import create_snippet
+from .saveIndex import save_index
 from .tokenizer import tokenize
 
 __all__ = [
@@ -17,5 +18,6 @@ __all__ = [
     "search_ranked_inverted_index",
     "search_ranked_inverted_index_with_snippets",
     "search_with_inverted_index",
+    "save_index",
     "tokenize",
 ]
