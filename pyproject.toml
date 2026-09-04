@@ -3,7 +3,9 @@ name = "bindal-os"
 version = "0.1.0"
 description = "A simple document search engine with inverted indexing"
 requires-python = ">=3.9"
-dependencies = []
+dependencies = [
+    "stopwords>=1.0.2",
+]
 
 [dependency-groups]
 dev = [

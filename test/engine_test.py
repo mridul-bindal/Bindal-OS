@@ -13,6 +13,7 @@ from server.search_engine.search import (
 )
 from server.search_engine.snippets import create_snippet
 from server.search_engine.saveIndex import save_index
+from server.search_engine.stopwords import remove_stopwords
 from server.search_engine.tokenizer import tokenize
 
 
@@ -24,6 +25,10 @@ def test_tokenize_normalizes_text_and_removes_punctuation():
 
 def test_tokenize_returns_empty_list_for_non_word_text():
     assert tokenize("!@#$%") == []
+
+
+def test_remove_stopwords_removes_common_english_stopwords():
+    assert remove_stopwords("the MongoDB is in database") == "MongoDB database"
 
 def test_build_inverted_index_maps_each_word_to_matching_files():
     file_data = {

@@ -6,6 +6,7 @@ from server import load_files
 from server.search_engine import (
     build_inverted_index,
     build_ranked_inverted_index,
+    remove_stopwords,
     save_index,
     search_ranked_inverted_index_with_snippets,
 )
@@ -13,7 +14,7 @@ from server.search_engine.benchmark import measure_time
 
 
 QUERIES = [
-    "MongoDB documents collections",
+    "The MongoDB when the documents collections",
     "insertOne updateMany deleteOne",
     "compound indexes explain plans",
     "aggregation pipeline match group sort",
@@ -43,12 +44,13 @@ def run(data_path: Path | None = None) -> None:
     }
 
     for query in QUERIES:
-        print(f"QUERY : {query}")
+        cleaned_query = remove_stopwords(query)
+        print(f"QUERY AFTER STOPWORD REMOVAL : {cleaned_query}")
         for search_method, search_function in search_methods.items():
-            result, time_taken = measure_time(search_function, query)
+            result, time_taken = measure_time(search_function, cleaned_query)
             print(f"METHOD_NAME : {search_method}")
             print(f"TIME_TAKEN : {time_taken}")
-            print("QUERY :", query)
+            print("QUERY :", cleaned_query)
             for item in result:
                 print(f"FILE_NAME : {item['file_name']}")
                 print(f"SNIPPET : {item['snippet']}")

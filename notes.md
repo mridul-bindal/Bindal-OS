@@ -143,6 +143,51 @@ data/inverted_index.json
 data/ranked_inverted_index.json
 ```
 
+### Stopword Removal
+
+Stopwords are common words that usually provide little meaning for search,
+such as `the`, `is`, `in`, `and`, `to`, and `of`. Removing them reduces noise
+and prevents frequent grammar words from affecting ranking.
+
+For example:
+
+```text
+Original query:  the operating system and processes
+Useful terms:    operating system processes
+```
+
+Without stopword removal, a query such as `the database is corrupted` could
+give too much weight to a document containing many repeated `the` and `is`
+tokens. A document containing the meaningful terms `database corrupted`
+should be more relevant.
+
+The implementation is in `server/search_engine/stopwords.py`:
+
+1. Split the query into whitespace-separated words.
+2. Compare each word case-insensitively with the English stopword set.
+3. Keep words that are not stopwords.
+4. Join the remaining words into the cleaned query.
+
+`client/app.py` calls `remove_stopwords()` before each search and prints the
+cleaned query using `QUERY AFTER STOPWORD REMOVAL`. The search functions then
+receive the cleaned query, so stopwords do not influence query matching or
+ranking.
+
+The project first tries to load English stopwords from the installed
+`stopwords` package. A small built-in fallback set is used if that package is
+not available, which allows `python main.py` to run without the optional
+package installed in the active interpreter.
+
+Currently, stopwords are removed from queries only. Dataset documents are
+still tokenized and indexed without stopword removal. Applying the same filter
+to document tokens would make the index smaller, but both sides must use the
+same preprocessing rules for reliable matching.
+
+Current implementation detail: removal is whitespace-based, so punctuation can
+prevent an exact match. For example, `the,` is not treated exactly like `the`.
+The tokenizer already handles punctuation for search, so a future improvement
+would be to tokenize the query first and remove stopwords from those tokens.
+
 Python sets are converted to sorted lists before JSON serialization. The save
 function does not overwrite an existing index file. The generated JSON files
 are ignored by Git because they can be recreated from the dataset.
@@ -175,7 +220,8 @@ for temporary files and cache data.
 - Search history is not implemented yet, although it was part of the original
   project idea.
 - Query matching uses simple token overlap and does not support phrases,
-  stemming, stop-word removal, fuzzy matching, or boolean operators.
+  stemming, fuzzy matching, or boolean operators. Stopword removal currently
+  applies to queries only.
 - Ranking is based only on raw token frequency; it does not use TF-IDF or a
   more advanced relevance model.
 - Index freshness checking is not implemented yet.
@@ -187,4 +233,3 @@ Commit source code, dataset text files, `pyproject.toml`, `uv.lock`, tests, and
 documentation. Do not commit `.venv/`, Python caches, pytest caches, or
 generated index JSON files. Never place passwords, API keys, or other secrets
 in `pyproject.toml` or the repository.
-
