@@ -157,22 +157,78 @@ Useful terms:    operating system processes
 ```
 
 
-### TF-IDF 
-Term frequency Inverse DOC FREQUENCY
-LEST ASSUME a query system NLP 
-AND 
-two text files 
-filwe1.txt -> {"system", "system" , ....} and 
-file2.txt -> {"system", "nlp" , "modules"}
+### TF-IDF
 
-normal frequency would rank the first one above and keep the second one below which is a weaker retreival 
+TF-IDF (term frequency-inverse document frequency) gives more weight to terms
+that are uncommon across the document collection. The TF-IDF index is built in
+`server/search_engine/calculate_idf.py` and stores a weight for every
+token/document pair:
 
-therefore we use tf-idf where idf is how rare this term is across all documents 
-final score = term_frequency * inverse_document_frequency
+```text
+tfidf(token, document) = term_frequency * idf
+idf = log((total_documents + 1) / (document_frequency + 1))
+```
 
-in our code = result[tocken][file_name ] = term_frequency * udf
+For example, consider these documents:
 
-idf = math.log((total_docs+1)/(document_frequency+1))
+```text
+file1.txt: system system
+file2.txt: system nlp modules
+```
+
+`system` occurs in both files, so its IDF is `0` with the current smoothing
+formula. `nlp` occurs only in `file2.txt`, so it has a positive weight. A
+search for `system nlp` therefore ranks `file2.txt` above `file1.txt`.
+
+`search_tfidf()` sums the TF-IDF weights for the unique matching query tokens
+and returns files from the highest score to the lowest. `client/app.py` builds
+this index, saves it as `data/tfidf_index.json`, and prints its result beside
+the ranked inverted-index result.
+
+All document tokens pass through stopword filtering before the inverted,
+ranked, and TF-IDF indexes are built. This keeps common terms such as `the`,
+`and`, `is`, and `a` out of the saved JSON indexes. The source document text
+is not changed, so snippets remain readable. The client rebuilds and
+overwrites all generated JSON indexes each time `main.py` runs.
+
+The TF-IDF test in `test/engine_test.py` uses the `system`/`nlp` example above
+to verify that the document containing the rare term ranks first.
+
+
+BM25
+1) TERM FREQUENCY SATURATION
+2) DOCUMENT LENGTH SATURATION
+
+BM25 Ranking
+
+upgrade an TF-iDF
+If a document repeats a matching word many times, TF-IDF continues giving weight to that repetition
+BM25
+
+Term frequeny saturation
+Document length normalization
+TF-IDF = term_frequency * inverse_document_frequency
+
+still cares about term frequency
+
+but it does not let term frequency grow forever
+
+the first few repetitions help. but after that each extra repetition is less valuable this is term frequency saturation
+
+BM25 also checks the document length
+
+if a document is very long. it has more chances to accidentally match query words. BM25 normalizes this. This is document length normalization
+
+BM25 formula score= idf * ((tf * (k1+1)) / (tf+ k1 * (1 - b + b * (doc_length/avg_doc_length))))
+
+The pieces are
+
+tf: how many times the term appears in the document
+idf: how rare is the term across documents
+doc_length: number of tokens in this document
+avg_doc_length : average document length in the corpus
+k1: controls term frequency saturation (1.5)
+b: controls document length normalization (0.75)
 
 
 
@@ -255,3 +311,12 @@ Commit source code, dataset text files, `pyproject.toml`, `uv.lock`, tests, and
 documentation. Do not commit `.venv/`, Python caches, pytest caches, or
 generated index JSON files. Never place passwords, API keys, or other secrets
 in `pyproject.toml` or the repository.
+
+
+| Algorithm | Time (ms) | Top result |
+|---|---:|---|
+| Basic search | 3.0082 | `02_collections_documents.txt` |
+| Inverted index | 0.0679 | `10_backup_monitoring.txt` |
+| Ranked inverted index | 0.0951 | `07_replication.txt` |
+| TF-IDF | 0.0352 | `07_replication.txt` |
+| BM25 | 0.0838 | `07_replication.txt` (score: 10.0031) |

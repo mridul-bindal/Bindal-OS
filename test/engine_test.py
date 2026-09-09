@@ -6,6 +6,7 @@ from server.search_engine.indexing import (
     build_ranked_inverted_index,
 )
 from server.search_engine.calculate_idf import build_tfidf_index
+from server.search_engine.BM25 import build_bm25_index, search_bm25_index
 from server.search_engine.search import (
     basic_search,
     search_ranked_inverted_index,
@@ -138,6 +139,19 @@ def test_tfidf_ranks_the_document_with_the_rare_query_term_first():
 
     assert tfidf_index["system"] == {"file1.txt": 0.0, "file2.txt": 0.0}
     assert search_tfidf("system nlp", tfidf_index) == ["file2.txt", "file1.txt"]
+
+
+def test_bm25_sums_weights_for_each_matching_query_term():
+    file_data = {
+        "one.txt": "mongodb database",
+        "two.txt": "mongodb mongodb",
+        "three.txt": "database database",
+    }
+
+    results = search_bm25_index("mongodb database", build_bm25_index(file_data))
+
+    assert results[0]["file_name"] == "one.txt"
+    assert results[0]["score"] > results[1]["score"]
 
 
 def test_create_snippet_limits_results_and_removes_newlines():

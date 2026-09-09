@@ -16,5 +16,3 @@ dev = [
 testpaths = [
     "test",
 ]
-addopts = "--basetemp=.pytest_tmp"
-cache_dir = ".pytest_cache_local"

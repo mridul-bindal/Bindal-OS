@@ -1,4 +1,3 @@
-import stopwords
 try:
     from stopwords import get_stopwords
 except ImportError:
