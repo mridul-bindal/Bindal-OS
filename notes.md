@@ -6,6 +6,29 @@ Bindal-OS is a small document search engine built to demonstrate how search
 engines tokenize documents, build indexes, rank results, and display snippets.
 The current dataset contains ten MongoDB learning documents in `data/`.
 
+## Version Roadmap
+
+### V1 - Lexical Search
+
+Lexical search has been implemented using BM25 for relevance ranking. The
+website has also been built to provide a user interface for searching the
+document collection.
+
+### V2 - Semantic Search
+
+Semantic search will be implemented using embeddings so that the search engine
+can understand meaning and return conceptually related documents.
+
+### V3 - Hybrid Search
+
+Hybrid search will combine lexical BM25 ranking with semantic search to use
+both exact term matching and meaning-based retrieval.
+
+### V4 - Additional Search Functionality
+
+Additional functionality will be implemented, including search history,
+recommendations, word completion, and other usability improvements.
+
 ## How To Run
 
 Run the application from the project root:
@@ -294,7 +317,8 @@ for temporary files and cache data.
 
 ## Current Limitations
 
-- The frontend is currently a console application; there is no web UI yet.
+- The website is available, but advanced functionality such as search history
+    and recommendations is not implemented yet.
 - Search history is not implemented yet, although it was part of the original
   project idea.
 - Query matching uses simple token overlap and does not support phrases,
