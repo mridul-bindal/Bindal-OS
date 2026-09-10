@@ -13,6 +13,7 @@ __pycache__/
 .pytest_cache/
 .pytest_tmp/
 .pytest_cache_local/
+.pytest_stopwords_check/
 .mypy_cache/
 .pyre/
 .ruff_cache/
@@ -29,6 +30,16 @@ build/
 dist/
 *.egg-info/
 .eggs/
+
+# Node.js dependencies and frontend build output
+node_modules/
+dist-ssr/
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
 # Local configuration and secrets
 .env
