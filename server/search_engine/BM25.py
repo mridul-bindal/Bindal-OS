@@ -75,7 +75,7 @@ def search_bm25_index(
 
     ranked_docs = sorted(scores.items(), key=lambda item: (-item[1], item[0]))
     return [
-        {"file_name": file_name, "score": round(score, 4)}
+        {"file_name": file_name, "score": round(score, 4), }
         for file_name, score in ranked_docs
     ]
 
@@ -96,6 +96,7 @@ def search_bm25_index_with_snippets(
     return [
         {
             "file_name": file_name,
+            "file_length": len(file_data[file_name]),
             "score": round(score, 4),
             "snippet": create_snippet(file_data[file_name], tokens),
         }

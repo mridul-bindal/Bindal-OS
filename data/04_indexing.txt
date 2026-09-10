@@ -5,3 +5,43 @@ A single-field index stores values from one field. A compound index stores value
 Indexes make reads faster, but they are not free. Each index requires disk space and memory, and MongoDB must maintain it when documents are inserted, updated, or deleted. Too many indexes can reduce write throughput. The goal is not to index every field, but to measure real query patterns and add the smallest useful set of indexes.
 
 MongoDB provides explain plans to show how it executes a query. These plans reveal whether MongoDB scanned an index or the entire collection, how many keys and documents it examined, and whether a sort happened in memory. Teams should review slow queries, test indexes with realistic data volumes, and remove indexes that no longer serve production workloads.
+
+Indexes are data structures that help MongoDB locate documents efficiently. Without a suitable index, MongoDB may scan every document in a collection to answer a query. That approach can be acceptable for very small datasets but becomes slow and costly as collections grow. Every collection has a unique index on _id. Additional indexes should be created for common query filters, sorting patterns, and join-like lookup keys.
+
+A single-field index stores values from one field. A compound index stores values from multiple fields in a defined order. Field order matters: a compound index is most useful for queries that match its leading fields. For example, an index on status and createdAt can efficiently support requests for orders of a given status sorted by creation time. Indexes can also be unique, sparse, partial, text-based, geospatial, or specialized for arrays.
+
+Indexes make reads faster, but they are not free. Each index requires disk space and memory, and MongoDB must maintain it when documents are inserted, updated, or deleted. Too many indexes can reduce write throughput. The goal is not to index every field, but to measure real query patterns and add the smallest useful set of indexes.
+
+MongoDB provides explain plans to show how it executes a query. These plans reveal whether MongoDB scanned an index or the entire collection, how many keys and documents it examined, and whether a sort happened in memory. Teams should review slow queries, test indexes with realistic data volumes, and remove indexes that no longer serve production workloads.
+
+Indexes are data structures that help MongoDB locate documents efficiently. Without a suitable index, MongoDB may scan every document in a collection to answer a query. That approach can be acceptable for very small datasets but becomes slow and costly as collections grow. Every collection has a unique index on _id. Additional indexes should be created for common query filters, sorting patterns, and join-like lookup keys.
+
+A single-field index stores values from one field. A compound index stores values from multiple fields in a defined order. Field order matters: a compound index is most useful for queries that match its leading fields. For example, an index on status and createdAt can efficiently support requests for orders of a given status sorted by creation time. Indexes can also be unique, sparse, partial, text-based, geospatial, or specialized for arrays.
+
+Indexes make reads faster, but they are not free. Each index requires disk space and memory, and MongoDB must maintain it when documents are inserted, updated, or deleted. Too many indexes can reduce write throughput. The goal is not to index every field, but to measure real query patterns and add the smallest useful set of indexes.
+
+MongoDB provides explain plans to show how it executes a query. These plans reveal whether MongoDB scanned an index or the entire collection, how many keys and documents it examined, and whether a sort happened in memory. Teams should review slow queries, test indexes with realistic data volumes, and remove indexes that no longer serve production workloads.
+
+Indexes are data structures that help MongoDB locate documents efficiently. Without a suitable index, MongoDB may scan every document in a collection to answer a query. That approach can be acceptable for very small datasets but becomes slow and costly as collections grow. Every collection has a unique index on _id. Additional indexes should be created for common query filters, sorting patterns, and join-like lookup keys.
+
+A single-field index stores values from one field. A compound index stores values from multiple fields in a defined order. Field order matters: a compound index is most useful for queries that match its leading fields. For example, an index on status and createdAt can efficiently support requests for orders of a given status sorted by creation time. Indexes can also be unique, sparse, partial, text-based, geospatial, or specialized for arrays.
+
+Indexes make reads faster, but they are not free. Each index requires disk space and memory, and MongoDB must maintain it when documents are inserted, updated, or deleted. Too many indexes can reduce write throughput. The goal is not to index every field, but to measure real query patterns and add the smallest useful set of indexes.
+
+MongoDB provides explain plans to show how it executes a query. These plans reveal whether MongoDB scanned an index or the entire collection, how many keys and documents it examined, and whether a sort happened in memory. Teams should review slow queries, test indexes with realistic data volumes, and remove indexes that no longer serve production workloads.
+
+Indexes are data structures that help MongoDB locate documents efficiently. Without a suitable index, MongoDB may scan every document in a collection to answer a query. That approach can be acceptable for very small datasets but becomes slow and costly as collections grow. Every collection has a unique index on _id. Additional indexes should be created for common query filters, sorting patterns, and join-like lookup keys.
+
+A single-field index stores values from one field. A compound index stores values from multiple fields in a defined order. Field order matters: a compound index is most useful for queries that match its leading fields. For example, an index on status and createdAt can efficiently support requests for orders of a given status sorted by creation time. Indexes can also be unique, sparse, partial, text-based, geospatial, or specialized for arrays.
+
+Indexes make reads faster, but they are not free. Each index requires disk space and memory, and MongoDB must maintain it when documents are inserted, updated, or deleted. Too many indexes can reduce write throughput. The goal is not to index every field, but to measure real query patterns and add the smallest useful set of indexes.
+
+MongoDB provides explain plans to show how it executes a query. These plans reveal whether MongoDB scanned an index or the entire collection, how many keys and documents it examined, and whether a sort happened in memory. Teams should review slow queries, test indexes with realistic data volumes, and remove indexes that no longer serve production workloads.
+
+Indexes are data structures that help MongoDB locate documents efficiently. Without a suitable index, MongoDB may scan every document in a collection to answer a query. That approach can be acceptable for very small datasets but becomes slow and costly as collections grow. Every collection has a unique index on _id. Additional indexes should be created for common query filters, sorting patterns, and join-like lookup keys.
+
+A single-field index stores values from one field. A compound index stores values from multiple fields in a defined order. Field order matters: a compound index is most useful for queries that match its leading fields. For example, an index on status and createdAt can efficiently support requests for orders of a given status sorted by creation time. Indexes can also be unique, sparse, partial, text-based, geospatial, or specialized for arrays.
+
+Indexes make reads faster, but they are not free. Each index requires disk space and memory, and MongoDB must maintain it when documents are inserted, updated, or deleted. Too many indexes can reduce write throughput. The goal is not to index every field, but to measure real query patterns and add the smallest useful set of indexes.
+
+MongoDB provides explain plans to show how it executes a query. These plans reveal whether MongoDB scanned an index or the entire collection, how many keys and documents it examined, and whether a sort happened in memory. Teams should review slow queries, test indexes with realistic data volumes, and remove indexes that no longer serve production workloads.
