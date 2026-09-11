@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from functools import lru_cache
 from typing import Any
 
-from chunking import DocumentChunk
+from .chunking import DocumentChunk
 
 
 MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
