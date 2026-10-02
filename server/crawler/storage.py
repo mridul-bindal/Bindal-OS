@@ -27,6 +27,8 @@ def save_document(document: dict, output_dir: Path = DEFAULT_OUTPUT_DIR) -> Path
         return None
     payload = {key: document[key] for key in ("url", "title", "text", "crawled_at")}
     payload["content_hash"] = digest
+    if "blocks" in document:
+        payload["blocks"] = document["blocks"]
     write_json_atomic(path, payload)
     records[digest] = document["url"]
     record.persist(records)

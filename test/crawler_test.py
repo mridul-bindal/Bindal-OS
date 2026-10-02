@@ -19,7 +19,7 @@ def test_success_metadata_storage_and_client_ownership(tmp_path):
     with response_client("<title> A  title </title><main><p>Café &amp; code.</p></main>") as client:
         document = crawl_url("https://example.com/page#section", client=client, output_dir=tmp_path)
         assert not client.is_closed
-    assert set(document) == {"url", "title", "text", "crawled_at", "content_hash", "is_duplicate"}
+    assert set(document) == {"url", "title", "text", "crawled_at", "content_hash", "is_duplicate", "blocks"}
     assert document["is_duplicate"] is False
     assert document["url"] == "https://example.com/page"
     assert document["title"] == "A title"

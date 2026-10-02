@@ -58,8 +58,8 @@ def store_chunks(
     chunks: Sequence[EmbeddedChunk],
     *,
     source: str,
-    chunk_words: int,
-    overlap_words: int,
+    chunk_words: int | None = None,
+    overlap_words: int | None = None,
     batch_size: int = 100,
 ) -> int:
     """Upsert chunks with stable IDs, awaiting each batch before returning."""
@@ -79,7 +79,7 @@ def store_chunks(
                     vector=chunk.embedding,
                     payload={
                         **{key: value for key, value in chunk.metadata.items()
-                           if key in {"source_url", "title", "content_hash", "crawled_at"}},
+                           if key in {"source_url", "url", "title", "content_hash", "crawled_at", "heading_path", "chunk_index", "token_count", "chunking_config"}},
                         "source": source,
                         "indexer": "bindal_semantic_search",
                         "generation": generation,

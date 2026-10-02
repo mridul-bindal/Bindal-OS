@@ -344,3 +344,6 @@ in `pyproject.toml` or the repository.
 | Ranked inverted index | 0.0951 | `07_replication.txt` |
 | TF-IDF | 0.0352 | `07_replication.txt` |
 | BM25 | 0.0838 | `07_replication.txt` (score: 10.0031) |
+
+
+i dont see the nice retrieval hybrid search apparently when i am searching about the indexation 

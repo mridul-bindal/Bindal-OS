@@ -1,0 +1,325 @@
+{
+  "tokenization_version": "technical-v2",
+  "local_chunk_count": 130,
+  "crawler_chunk_count": 9,
+  "collection_points": 139,
+  "requested_max_tokens": 300,
+  "effective_max_tokens": 256,
+  "max_observed_tokens": 256,
+  "url": "https://www.geeksforgeeks.org/mongodb/mongodb-replication-and-sharding/",
+  "title": "MongoDB - Replication and Sharding - GeeksforGeeks",
+  "characters": 5017,
+  "block_counts": {
+    "paragraph": 25,
+    "code": 4,
+    "list": 8,
+    "heading": 7
+  },
+  "heading_paths": [
+    [
+      "MongoDB - Replication and Sharding"
+    ],
+    [
+      "MongoDB - Replication and Sharding",
+      "Replication in MongoDB"
+    ],
+    [
+      "MongoDB - Replication and Sharding",
+      "Replication in MongoDB",
+      "Features of Replication"
+    ],
+    [
+      "MongoDB - Replication and Sharding",
+      "Replication in MongoDB",
+      "Set Up Replication in MongoDB"
+    ],
+    [
+      "MongoDB - Replication and Sharding",
+      "Replication in MongoDB",
+      "Set Up Replication in MongoDB"
+    ],
+    [
+      "MongoDB - Replication and Sharding",
+      "Replication in MongoDB",
+      "Set Up Replication in MongoDB"
+    ],
+    [
+      "MongoDB - Replication and Sharding",
+      "Sharding in MongoDB"
+    ],
+    [
+      "MongoDB - Replication and Sharding",
+      "Sharding in MongoDB",
+      "Set Up Sharding in MongoDB"
+    ],
+    [
+      "MongoDB - Replication and Sharding",
+      "Replication Vs Sharding"
+    ]
+  ],
+  "local_bm25_variants": {
+    "MongoDB": [
+      {
+        "file_name": "01_introduction.txt",
+        "score": 0.1113
+      },
+      {
+        "file_name": "04_indexing.txt",
+        "score": 0.1111
+      },
+      {
+        "file_name": "02_collections_documents.txt",
+        "score": 0.1101
+      },
+      {
+        "file_name": "09_security.txt",
+        "score": 0.108
+      },
+      {
+        "file_name": "10_backup_monitoring.txt",
+        "score": 0.1075
+      },
+      {
+        "file_name": "05_aggregation.txt",
+        "score": 0.1052
+      },
+      {
+        "file_name": "07_replication.txt",
+        "score": 0.1045
+      },
+      {
+        "file_name": "08_sharding.txt",
+        "score": 0.1041
+      },
+      {
+        "file_name": "03_crud_operations.txt",
+        "score": 0.1037
+      },
+      {
+        "file_name": "06_data_modeling.txt",
+        "score": 0.1037
+      }
+    ],
+    "mongo DB": [
+      {
+        "file_name": "01_introduction.txt",
+        "score": 0.1113
+      },
+      {
+        "file_name": "04_indexing.txt",
+        "score": 0.1111
+      },
+      {
+        "file_name": "02_collections_documents.txt",
+        "score": 0.1101
+      },
+      {
+        "file_name": "09_security.txt",
+        "score": 0.108
+      },
+      {
+        "file_name": "10_backup_monitoring.txt",
+        "score": 0.1075
+      },
+      {
+        "file_name": "05_aggregation.txt",
+        "score": 0.1052
+      },
+      {
+        "file_name": "07_replication.txt",
+        "score": 0.1045
+      },
+      {
+        "file_name": "08_sharding.txt",
+        "score": 0.1041
+      },
+      {
+        "file_name": "03_crud_operations.txt",
+        "score": 0.1037
+      },
+      {
+        "file_name": "06_data_modeling.txt",
+        "score": 0.1037
+      }
+    ],
+    "mongodb": [
+      {
+        "file_name": "01_introduction.txt",
+        "score": 0.1113
+      },
+      {
+        "file_name": "04_indexing.txt",
+        "score": 0.1111
+      },
+      {
+        "file_name": "02_collections_documents.txt",
+        "score": 0.1101
+      },
+      {
+        "file_name": "09_security.txt",
+        "score": 0.108
+      },
+      {
+        "file_name": "10_backup_monitoring.txt",
+        "score": 0.1075
+      },
+      {
+        "file_name": "05_aggregation.txt",
+        "score": 0.1052
+      },
+      {
+        "file_name": "07_replication.txt",
+        "score": 0.1045
+      },
+      {
+        "file_name": "08_sharding.txt",
+        "score": 0.1041
+      },
+      {
+        "file_name": "03_crud_operations.txt",
+        "score": 0.1037
+      },
+      {
+        "file_name": "06_data_modeling.txt",
+        "score": 0.1037
+      }
+    ]
+  },
+  "crawler_bm25_variants": {
+    "MongoDB": [
+      {
+        "file_name": "web-108762a771e14cae709c8bdd4c5b5383dfa96f90d8a7dc1174f71861e957be97-d28303640e4425b0811028698b07caf686e46f26026a30e0e4701e8bb358d310",
+        "score": 0.6752
+      }
+    ],
+    "mongo DB": [
+      {
+        "file_name": "web-108762a771e14cae709c8bdd4c5b5383dfa96f90d8a7dc1174f71861e957be97-d28303640e4425b0811028698b07caf686e46f26026a30e0e4701e8bb358d310",
+        "score": 1.5656
+      }
+    ],
+    "mongodb": [
+      {
+        "file_name": "web-108762a771e14cae709c8bdd4c5b5383dfa96f90d8a7dc1174f71861e957be97-d28303640e4425b0811028698b07caf686e46f26026a30e0e4701e8bb358d310",
+        "score": 0.6752
+      }
+    ]
+  },
+  "generalization": [
+    {
+      "forms": [
+        "RedisCache",
+        "redis cache"
+      ],
+      "forward": [
+        {
+          "file_name": "target",
+          "score": 0.8944
+        }
+      ],
+      "reverse": [
+        {
+          "file_name": "target",
+          "score": 0.6931
+        }
+      ]
+    },
+    {
+      "forms": [
+        "VectorStore",
+        "vector store"
+      ],
+      "forward": [
+        {
+          "file_name": "target",
+          "score": 0.8944
+        }
+      ],
+      "reverse": [
+        {
+          "file_name": "target",
+          "score": 0.6931
+        }
+      ]
+    },
+    {
+      "forms": [
+        "Node.js",
+        "node js"
+      ],
+      "forward": [
+        {
+          "file_name": "target",
+          "score": 1.9538
+        }
+      ],
+      "reverse": [
+        {
+          "file_name": "target",
+          "score": 2.0794
+        }
+      ]
+    },
+    {
+      "forms": [
+        "React.js",
+        "react js"
+      ],
+      "forward": [
+        {
+          "file_name": "target",
+          "score": 1.9538
+        }
+      ],
+      "reverse": [
+        {
+          "file_name": "target",
+          "score": 2.0794
+        }
+      ]
+    },
+    {
+      "forms": [
+        "machine-learning",
+        "machine learning"
+      ],
+      "forward": [
+        {
+          "file_name": "target",
+          "score": 1.9538
+        }
+      ],
+      "reverse": [
+        {
+          "file_name": "target",
+          "score": 2.0794
+        }
+      ]
+    },
+    {
+      "forms": [
+        "shard-key",
+        "shard key"
+      ],
+      "forward": [
+        {
+          "file_name": "target",
+          "score": 1.9538
+        }
+      ],
+      "reverse": [
+        {
+          "file_name": "target",
+          "score": 2.0794
+        }
+      ]
+    }
+  ],
+  "bm25_40_query_metrics": {
+    "recall_at_5": 0.9541666666666668,
+    "recall_at_10": 0.975,
+    "reciprocal_rank": 0.8308333333333333
+  },
+  "reindex_idempotent": true,
+  "all_stored_vectors_within_model_limit": true
+}

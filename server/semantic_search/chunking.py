@@ -1,4 +1,4 @@
-"""Split original document text into overlapping, embedding-ready chunks."""
+"""Shared chunking entry point: token-aware by default, explicit legacy word mode."""
 from dataclasses import dataclass
 import re
 
@@ -20,14 +20,18 @@ def chunk_document(
     document_name: str,
     text: str,
     *,
-    chunk_words: int = DEFAULT_CHUNK_WORDS,
+    chunk_words: int | None = None,
     overlap_words: int = DEFAULT_CHUNK_OVERLAP_WORDS,
+    **token_options,
 ) -> list[DocumentChunk]:
-    """Return overlapping chunks as slices of the original text.
+    """Use typed blocks/paragraphs and token budgets unless chunk_words is set.
 
-    Whitespace and punctuation inside each chunk are never normalized or
-    tokenized, keeping the text suitable as direct embedding-model input.
+    Explicit word settings retain the old slicing API for compatibility. Token
+    defaults are target=200, maximum=300 (model capped), overlap=40.
     """
+    if chunk_words is None:
+        from .structured_chunking import chunk_structured_document
+        return chunk_structured_document(document_name, text, **token_options)
     if chunk_words <= 0:
         raise ValueError("chunk_words must be positive")
     if not 0 <= overlap_words < chunk_words:
@@ -56,8 +60,9 @@ def chunk_document(
 def chunk_documents(
     file_data: dict[str, str],
     *,
-    chunk_words: int = DEFAULT_CHUNK_WORDS,
+    chunk_words: int | None = None,
     overlap_words: int = DEFAULT_CHUNK_OVERLAP_WORDS,
+    **token_options,
 ) -> list[DocumentChunk]:
     """Chunk every document returned by ``server.file_loader.load_files``."""
     return [
@@ -68,5 +73,6 @@ def chunk_documents(
             text,
             chunk_words=chunk_words,
             overlap_words=overlap_words,
+            **token_options,
         )
     ]

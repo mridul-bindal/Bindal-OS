@@ -69,7 +69,7 @@ def test_reindex_is_idempotent_and_replacement_removes_stale_chunks(tmp_path):
 def test_local_pipeline_and_crawler_sources_are_isolated(tmp_path):
     with closing(QdrantClient(":memory:")) as client:
         local = embed_chunks(chunk_document("local.txt", "local source text"), model=Model())
-        assert local[0].metadata == {}
+        assert local[0].metadata["chunking_config"]["strategy"] == "structure_tokens_v1"
         store_chunks(client, "chunks", local, source="local-folder", chunk_words=250, overlap_words=40)
         save(client, tmp_path, chunks())
         store_chunks(client, "chunks", local, source="local-folder", chunk_words=250, overlap_words=40)

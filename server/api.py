@@ -98,7 +98,7 @@ def search(
 
     cleaned_query = remove_stopwords(query)
     raw_results = search_bm25_index_with_snippets(
-        cleaned_query or query,
+        query,
         state.bm25_index,
         state.file_data,
     )

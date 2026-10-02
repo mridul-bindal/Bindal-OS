@@ -4,7 +4,7 @@ from pathlib import Path
 
 import httpx
 
-from .extract import extract_content
+from .extract import extract_structured_content
 from .fetch import CrawlError, fetch_html, validate_url
 from .storage import DEFAULT_OUTPUT_DIR, save_document
 from .dedup import content_hash
@@ -12,7 +12,7 @@ from .dedup import content_hash
 
 def crawl_url(url: str, *, output_dir: Path | None = DEFAULT_OUTPUT_DIR,
               timeout: float = 20.0, client: httpx.Client | None = None) -> dict:
-    """Return document metadata, content_hash, and is_duplicate status.
+    """Return document metadata, typed HTML blocks, content_hash, and duplicate status.
 
     is_duplicate is False when saved, True when skipped, or None when
     output_dir=None (no persistence or duplicate check). Only document metadata
@@ -28,10 +28,10 @@ def crawl_url(url: str, *, output_dir: Path | None = DEFAULT_OUTPUT_DIR,
             html = fetch_html(url, client=owned_client, timeout=timeout)
     else:
         html = fetch_html(url, client=client, timeout=timeout)
-    title, text = extract_content(html)
+    title, text, blocks = extract_structured_content(html)
     if not text:
         raise CrawlError("Page contains no usable text")
-    document = {"url": url, "title": title, "text": text,
+    document = {"url": url, "title": title, "text": text, "blocks": blocks,
                 "content_hash": content_hash(text),
                 "crawled_at": datetime.now(timezone.utc).isoformat()}
     document["is_duplicate"] = None

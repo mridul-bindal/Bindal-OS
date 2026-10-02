@@ -23,7 +23,7 @@ from server.search_engine.tokenizer import tokenize
 def test_tokenize_normalizes_text_and_removes_punctuation():
     text = "Hello, MongoDB! Version 7.0"
 
-    assert tokenize(text) == ["hello", "mongodb", "version", "7", "0"]
+    assert tokenize(text) == ["hello", "mongodb", "version", "7.0"]
 
 
 def test_tokenize_returns_empty_list_for_non_word_text():
@@ -43,6 +43,8 @@ def test_build_inverted_index_maps_each_word_to_matching_files():
         "mongodb": {"one.txt", "two.txt"},
         "database": {"one.txt"},
         "search": {"two.txt"},
+        "mongodbdatabase": {"one.txt"},
+        "mongodbsearch": {"two.txt"},
     }
 
 
@@ -77,6 +79,7 @@ def test_build_ranked_inverted_index_counts_word_frequency():
     assert build_ranked_inverted_index(file_data) == {
         "database": {"one.txt": 2, "two.txt": 1},
         "index": {"one.txt": 1},
+        "databaseindex": {"one.txt": 1},
     }
 
 
@@ -183,7 +186,7 @@ def test_ranked_search_with_snippets_returns_file_score_and_snippets():
     )
 
     assert results[0]["file_name"] == "one.txt"
-    assert results[0]["score"] == 3
+    assert results[0]["score"] == 4  # Includes the shared compound alias.
     assert results[0]["snippet"]
     assert results[1]["file_name"] == "two.txt"
     assert results[1]["score"] == 1

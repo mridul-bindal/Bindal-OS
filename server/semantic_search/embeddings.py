@@ -38,6 +38,9 @@ def embed_chunks(
         return []
 
     encoder = model if model is not None else get_embedding_model()
+    if hasattr(encoder, "tokenizer") and hasattr(encoder, "max_seq_length"):
+        if any(len(encoder.tokenizer.encode(c.text, add_special_tokens=True, truncation=False)) > encoder.max_seq_length for c in chunks):
+            raise ValueError("Chunk exceeds the embedding model input limit; re-chunk with token-aware defaults")
     vectors = encoder.encode([chunk.text for chunk in chunks])
     embedded_chunks = [
         EmbeddedChunk(
@@ -45,7 +48,7 @@ def embed_chunks(
             chunk_id=chunk.chunk_id,
             text=chunk.text,
             metadata={key: getattr(chunk, key) for key in
-                      ("source_url", "title", "content_hash", "crawled_at")
+                      ("source_url", "url", "title", "content_hash", "crawled_at", "heading_path", "chunk_index", "token_count", "chunking_config")
                       if hasattr(chunk, key)},
             embedding=[float(
 value) for value in vector],

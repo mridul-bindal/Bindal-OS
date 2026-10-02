@@ -8,7 +8,7 @@ print(document["title"], document["text"])
 ```
 
 `crawl_url` returns a dictionary with `url`, `title`, `text`, `content_hash`,
-`crawled_at`, and `is_duplicate`.
+`crawled_at`, `blocks`, and `is_duplicate`.
 By default it also saves UTF-8 JSON under the project's `crawler_output/`
 directory, which is ignored by Git. Pass `output_dir=None` for extraction without
 saving, or a `Path` to select another output directory. The timestamp is UTC in
@@ -49,8 +49,9 @@ HTTP failures, non-HTML responses, and pages without usable text raise `CrawlErr
 Storage failures propagate as `OSError`. The default timeout is 20 seconds per
 HTTP operation, not a deadline for the whole crawl.
 
-Extraction prefers `<main>`, then an element with `role="main"`, then `<article>`,
-then the body. Scripts, styles, navigation, sidebars, footers, forms, hidden elements,
+Extraction prefers explicit `articleBody` markup, then `<article>`, `<main>`,
+`role="main"`, and the body. For unsemantic layouts, a heading/prose/link-density
+heuristic selects a narrower content container. Scripts, styles, navigation, sidebars, footers, forms, hidden elements,
 and other obvious non-content elements are removed. Inline punctuation is retained;
 prose whitespace is normalized. `<pre>` code retains indentation and internal spaces,
 with blank lines removed. Selection is deliberately heuristic, so unusual layouts
@@ -94,7 +95,7 @@ if document["is_duplicate"]:
 
 `is_duplicate` is `False` when saved, `True` when skipped, and `None` when
 `output_dir=None` bypasses persistence and duplicate checking. This status is
-returned only; saved JSON contains the five document metadata fields. Direct
+returned only; saved JSON contains document metadata and typed HTML blocks. Direct
 `save_document` calls also deduplicate and return a saved `Path` or `None`.
 
 The record is historical: old hashes remain seen if a URL later changes or its
@@ -110,16 +111,35 @@ from server.crawler import crawl_url
 from server.crawler.chunking import chunk_crawled_document, chunk_crawled_documents
 
 document = crawl_url("https://example.com/page")
-chunks = chunk_crawled_document(document, chunk_words=250, overlap_words=40)
+chunks = chunk_crawled_document(document, target_chunk_tokens=200, max_chunk_tokens=300, overlap_tokens=40)
 # Or process several crawl results / saved JSON document dictionaries:
 chunks = chunk_crawled_documents([document])
 ```
 
 The adapter in `chunking.py` calls the existing `server.chunking.chunk_document`;
-it does not implement another splitting algorithm. Defaults remain 250 words
-with 40 words of overlap. Each `CrawledDocumentChunk` is a frozen subclass of
+it does not implement another splitting algorithm. Defaults are a target of 200
+tokens, requested maximum of 300, and up to 40 tokens of overlap. The maximum is
+capped at MiniLM's actual 256-token input length (including special tokens and
+heading context). Each `CrawledDocumentChunk` is a frozen subclass of
 `DocumentChunk` and provides `document_name`, `chunk_id`, `text`, `source_url`,
-`title`, `content_hash`, and `crawled_at`. Text is passed to the chunker unchanged.
+`url` (alias of `source_url`), `title`, `content_hash`, `crawled_at`, `heading_path`,
+`chunk_index`, `token_count`, and `chunking_config`. The original `source_text` and
+`source_blocks` are retained for validation/indexing, not added to Qdrant payloads.
+
+HTML headings H1-H3, paragraphs, lists, and code are preserved as typed blocks
+at extraction time. Heading ancestors prefix child chunks. A section that fits
+the effective maximum stays together, even above the target. Larger sections
+split at block boundaries, then token offsets for oversized blocks. Code stays
+intact when it fits; oversized code prefers line breaks before a token fallback.
+Overlap applies only inside split sections and is reduced/omitted when needed
+to preserve a whole block and respect the hard budget. Extremely long headings
+are shortened in chunk text while their full path remains in metadata.
+
+Plain-text/legacy documents without blocks use paragraph boundaries only; the
+adapter does not invent HTML structure from flattened text. Recrawl old webpages
+to acquire actual structure. Explicit `chunk_words=` retains the old algorithm
+for compatibility, but embedding now rejects over-limit inputs rather than
+silently truncating them. New callers should use token settings.
 
 Document identifiers combine the normalized URL's hash and the document content
 hash. Chunk IDs use the existing chunker's numbered suffix, giving stable IDs for
@@ -153,12 +173,11 @@ from server.crawler.indexing import index_crawled_chunks
 from server.semantic_search.vector_store import connect_qdrant
 
 # documents can be crawl results or loaded saved crawler document dictionaries.
-chunks = chunk_crawled_documents(documents, chunk_words=250, overlap_words=40)
+chunks = chunk_crawled_documents(documents)
 client, collection = connect_qdrant()
 try:
     indexed = index_crawled_chunks(
         chunks, client=client, collection=collection,
-        chunk_words=250, overlap_words=40,
     )
 finally:
     client.close()
@@ -168,18 +187,20 @@ from server.search_engine.BM25 import search_bm25_index
 hits = search_bm25_index("replication", indexed["bm25_index"])
 ```
 
-The adapter reconstructs a document's token sequence without counting overlap
-twice, then passes document-name/text mappings to the original BM25 builder.
+The adapter uses original source text rather than concatenating structural chunks,
+so headings and overlap do not inflate BM25 counts. The legacy word-mode adapter
+still reconstructs tokens without counting overlap twice. Both pass document-name/text mappings to the original BM25 builder.
 The original chunk text, including code whitespace, remains unchanged for
 embeddings and Qdrant. Full chunk coverage, hashes, IDs and chunk configuration
-are validated before indexing; pass the same settings used to create the chunks.
+are validated before indexing; token settings travel with the chunks.
 Repeated identical chunks are ignored. Multiple conflicting revisions of a URL
 in one batch are rejected.
 
 The shared embedding representation now carries optional metadata. Local chunks
-continue to produce their existing payloads; crawler payloads also retain
+now include chunking metadata; crawler payloads also retain
 `source_url`, `title`, `content_hash`, and `crawled_at`, alongside the existing
-`document_name`, `chunk_id`, `text`, and model fields. Vectors use the same MiniLM
+`document_name`, `chunk_id`, `text`, `heading_path`, `chunk_index`, token count/config,
+and model fields. Vectors use the same MiniLM
 model, dimensions, distance, and configured collection.
 
 Each webpage uses a stable Qdrant source scope of `crawler:<normalized URL>`.

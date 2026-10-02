@@ -61,9 +61,9 @@ def test_empty_documents_do_not_reach_chunker(documents):
 
 def test_default_configuration():
     chunks = chunk_crawled_document(doc(text=" ".join(f"word{i}" for i in range(500))))
-    assert len(chunks) == 3
-    assert len(chunks[0].text.split()) == 250
-    assert chunks[1].text.startswith("word210 ")
+    assert len(chunks) >= 3
+    assert all(c.token_count <= 256 for c in chunks)
+    assert chunks[0].chunking_config["target_chunk_tokens"] == 200
 
 
 @pytest.mark.parametrize("words,overlap", [(0, 0), (3, 3), (3, -1)])

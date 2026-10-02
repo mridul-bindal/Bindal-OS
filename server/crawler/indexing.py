@@ -25,9 +25,10 @@ def index_crawled_chunks(
     client: QdrantClient,
     collection: str = DEFAULT_COLLECTION,
     index_file: Path = DEFAULT_INDEX_FILE,
-    chunk_words: int = DEFAULT_CHUNK_WORDS,
+    chunk_words: int | None = None,
     overlap_words: int = DEFAULT_CHUNK_OVERLAP_WORDS,
     model: Any | None = None,
+    token_counter=None,
 ) -> dict:
     """Upsert complete page revisions and rebuild BM25 using the shared indexer.
 
@@ -64,12 +65,22 @@ def index_crawled_chunks(
             page.sort(key=lambda c: int(c.chunk_id.rsplit("::chunk-", 1)[1]))
         except (IndexError, ValueError) as exc:
             raise ValueError("Invalid chunk ID") from exc
-        # Recover document tokens once: overlap belongs to both vectors, not twice to BM25.
-        words = page[0].text.split()
-        for chunk in page[1:]:
-            words.extend(chunk.text.split()[overlap_words:])
-        text = " ".join(words)
-        expected = chunk_document(first.document_name, text, chunk_words=chunk_words, overlap_words=overlap_words)
+        if first.chunking_config:
+            config = first.chunking_config
+            text = first.source_text
+            if not isinstance(text, str) or any(c.source_text != text or c.source_blocks != first.source_blocks or c.chunking_config != config for c in page):
+                raise ValueError("Inconsistent original document/structure")
+            expected = chunk_document(first.document_name, text, blocks=first.source_blocks,
+                target_chunk_tokens=config["target_chunk_tokens"], max_chunk_tokens=config["max_chunk_tokens"],
+                overlap_tokens=config["overlap_tokens"], token_counter=token_counter)
+        else:
+            if chunk_words is None:
+                raise ValueError("Legacy chunks require explicit chunk_words")
+            words = page[0].text.split()
+            for chunk in page[1:]:
+                words.extend(chunk.text.split()[overlap_words:])
+            text = " ".join(words)
+            expected = chunk_document(first.document_name, text, chunk_words=chunk_words, overlap_words=overlap_words)
         if content_hash(text) != first.content_hash or len(expected) != len(page) or any(
             c.chunk_id != e.chunk_id or c.text.split() != e.text.split()
             for c, e in zip(page, expected)
@@ -77,7 +88,8 @@ def index_crawled_chunks(
             raise ValueError("Incomplete or inconsistent chunks; supply the full page with its original chunk settings")
         ordered_chunks[url] = page
         updates[url] = {"document_name": first.document_name, "text": text,
-                        "chunks": [asdict(c) for c in page]}
+                        "chunks": [{k: list(v) if isinstance(v, tuple) else v for k, v in asdict(c).items() if k not in {"source_text", "source_blocks"}} for c in page],
+                        "blocks": first.source_blocks}
 
     documents = {**previous["documents"], **updates}
     names = [document["document_name"] for document in documents.values()]
@@ -89,6 +101,7 @@ def index_crawled_chunks(
         embedded = embed_chunks(page, model=model)
         store_chunks(client, collection, embedded, source=f"crawler:{url}",
                      chunk_words=chunk_words, overlap_words=overlap_words)
-    result = {"documents": documents, "bm25_index": bm25}
+    from server.search_engine.tokenizer import TOKENIZATION_VERSION
+    result = {"documents": documents, "bm25_index": bm25, "tokenization_version": TOKENIZATION_VERSION}
     write_json_atomic(index_file, result)
     return result
