@@ -1,0 +1,379 @@
+{
+  "labeling": "Manually authored from the ten source documents before running this evaluation. Binary relevance: a document directly answers a substantial part of the query, not merely mentions a term. Labels are independent of retrieval outputs; judgments are subjective and reviewable.",
+  "queries": [
+    {
+      "id": "q01",
+      "category": "exact_technical",
+      "query": "BSON types and ObjectId identifiers",
+      "relevant_documents": [
+        "01_introduction.txt",
+        "02_collections_documents.txt"
+      ],
+      "rationale": "Introduction covers BSON types; collections explains ObjectId and identifier immutability."
+    },
+    {
+      "id": "q02",
+      "category": "exact_technical",
+      "query": "updateOne $set $inc $push",
+      "relevant_documents": [
+        "03_crud_operations.txt"
+      ],
+      "rationale": "CRUD explains these update operators and methods."
+    },
+    {
+      "id": "q03",
+      "category": "exact_technical",
+      "query": "compound index leading fields explain plans",
+      "relevant_documents": [
+        "04_indexing.txt"
+      ],
+      "rationale": "Indexing explains field order and explain diagnostics."
+    },
+    {
+      "id": "q04",
+      "category": "exact_technical",
+      "query": "$match $group $unwind aggregation stages",
+      "relevant_documents": [
+        "05_aggregation.txt"
+      ],
+      "rationale": "Aggregation defines these pipeline stages."
+    },
+    {
+      "id": "q05",
+      "category": "exact_technical",
+      "query": "JSON Schema validation embedding referencing",
+      "relevant_documents": [
+        "06_data_modeling.txt"
+      ],
+      "rationale": "Data modeling discusses validation and embedding/reference decisions."
+    },
+    {
+      "id": "q06",
+      "category": "exact_technical",
+      "query": "replica set majority write concern",
+      "relevant_documents": [
+        "07_replication.txt"
+      ],
+      "rationale": "Replication defines majority acknowledgements."
+    },
+    {
+      "id": "q07",
+      "category": "exact_technical",
+      "query": "mongos hashed shard key range queries",
+      "relevant_documents": [
+        "08_sharding.txt"
+      ],
+      "rationale": "Sharding explains routers and hashed/ranged key tradeoffs."
+    },
+    {
+      "id": "q08",
+      "category": "exact_technical",
+      "query": "SCRAM X.509 role-based access control",
+      "relevant_documents": [
+        "09_security.txt"
+      ],
+      "rationale": "Security describes authentication mechanisms and authorization."
+    },
+    {
+      "id": "q09",
+      "category": "conceptual",
+      "query": "Why can documents in a collection have different fields?",
+      "relevant_documents": [
+        "01_introduction.txt",
+        "02_collections_documents.txt"
+      ],
+      "rationale": "Both explain flexible document shapes."
+    },
+    {
+      "id": "q10",
+      "category": "conceptual",
+      "query": "How is replacing a document different from updating selected fields?",
+      "relevant_documents": [
+        "03_crud_operations.txt"
+      ],
+      "rationale": "CRUD contrasts replacements and update operators."
+    },
+    {
+      "id": "q11",
+      "category": "conceptual",
+      "query": "Why can adding more indexes reduce write performance?",
+      "relevant_documents": [
+        "04_indexing.txt"
+      ],
+      "rationale": "Indexing explains maintenance cost during writes."
+    },
+    {
+      "id": "q12",
+      "category": "conceptual",
+      "query": "Why should filtering happen early in an aggregation pipeline?",
+      "relevant_documents": [
+        "05_aggregation.txt"
+      ],
+      "rationale": "Aggregation explains early match stages reducing work."
+    },
+    {
+      "id": "q13",
+      "category": "conceptual",
+      "query": "When should related data be embedded rather than referenced?",
+      "relevant_documents": [
+        "02_collections_documents.txt",
+        "06_data_modeling.txt"
+      ],
+      "rationale": "Collections and modeling both give embedding/reference criteria."
+    },
+    {
+      "id": "q14",
+      "category": "conceptual",
+      "query": "How does replication differ from having a backup?",
+      "relevant_documents": [
+        "07_replication.txt",
+        "10_backup_monitoring.txt"
+      ],
+      "rationale": "Both distinguish server availability from recovery after data loss."
+    },
+    {
+      "id": "q15",
+      "category": "conceptual",
+      "query": "Why can a badly chosen shard key create hotspots?",
+      "relevant_documents": [
+        "08_sharding.txt"
+      ],
+      "rationale": "Sharding describes uneven traffic and key distribution."
+    },
+    {
+      "id": "q16",
+      "category": "conceptual",
+      "query": "What is the difference between authentication and authorization?",
+      "relevant_documents": [
+        "09_security.txt"
+      ],
+      "rationale": "Security defines identity verification versus permissions."
+    },
+    {
+      "id": "q17",
+      "category": "paraphrased",
+      "query": "Store records whose attributes evolve without forcing identical columns",
+      "relevant_documents": [
+        "01_introduction.txt",
+        "02_collections_documents.txt"
+      ],
+      "rationale": "Introduction and collections describe flexible record fields."
+    },
+    {
+      "id": "q18",
+      "category": "paraphrased",
+      "query": "Change a counter and append an item without overwriting the whole record",
+      "relevant_documents": [
+        "03_crud_operations.txt"
+      ],
+      "rationale": "CRUD covers increment, push, and partial updates."
+    },
+    {
+      "id": "q19",
+      "category": "paraphrased",
+      "query": "Avoid reading every record just to find a few matching values",
+      "relevant_documents": [
+        "04_indexing.txt"
+      ],
+      "rationale": "Indexing contrasts index lookup with full collection scans."
+    },
+    {
+      "id": "q20",
+      "category": "paraphrased",
+      "query": "Turn many orders into totals and averages for each customer",
+      "relevant_documents": [
+        "05_aggregation.txt"
+      ],
+      "rationale": "Aggregation covers grouping by key and aggregate calculations."
+    },
+    {
+      "id": "q21",
+      "category": "paraphrased",
+      "query": "Keep a shipping address with its order but share product records separately",
+      "relevant_documents": [
+        "06_data_modeling.txt",
+        "02_collections_documents.txt"
+      ],
+      "rationale": "Modeling and collections explain co-located order data and shared references."
+    },
+    {
+      "id": "q22",
+      "category": "paraphrased",
+      "query": "Keep serving the application when the current writer machine goes down",
+      "relevant_documents": [
+        "07_replication.txt"
+      ],
+      "rationale": "Replication describes automatic primary election."
+    },
+    {
+      "id": "q23",
+      "category": "paraphrased",
+      "query": "Spread growing storage and incoming writes across machines evenly",
+      "relevant_documents": [
+        "08_sharding.txt"
+      ],
+      "rationale": "Sharding addresses capacity and even write distribution."
+    },
+    {
+      "id": "q24",
+      "category": "paraphrased",
+      "query": "Limit each application's database account to only the actions it needs",
+      "relevant_documents": [
+        "09_security.txt"
+      ],
+      "rationale": "Security explains minimally privileged service accounts."
+    },
+    {
+      "id": "q25",
+      "category": "broad",
+      "query": "MongoDB document database basics",
+      "relevant_documents": [
+        "01_introduction.txt",
+        "02_collections_documents.txt"
+      ],
+      "rationale": "Introductory material and collection/document structure directly cover basics."
+    },
+    {
+      "id": "q26",
+      "category": "broad",
+      "query": "Designing flexible data structures and validation rules",
+      "relevant_documents": [
+        "01_introduction.txt",
+        "02_collections_documents.txt",
+        "06_data_modeling.txt"
+      ],
+      "rationale": "These documents cover flexible schemas, collection design, and validation."
+    },
+    {
+      "id": "q27",
+      "category": "broad",
+      "query": "Improving query and analytics performance",
+      "relevant_documents": [
+        "04_indexing.txt",
+        "05_aggregation.txt"
+      ],
+      "rationale": "Indexing and aggregation cover query execution and pipeline efficiency."
+    },
+    {
+      "id": "q28",
+      "category": "broad",
+      "query": "Planning capacity and horizontal database growth",
+      "relevant_documents": [
+        "08_sharding.txt",
+        "10_backup_monitoring.txt"
+      ],
+      "rationale": "Sharding covers scale-out; monitoring covers capacity planning and load tests."
+    },
+    {
+      "id": "q29",
+      "category": "broad",
+      "query": "Production availability and disaster recovery",
+      "relevant_documents": [
+        "07_replication.txt",
+        "10_backup_monitoring.txt"
+      ],
+      "rationale": "Replication covers availability; backups cover recovery objectives and drills."
+    },
+    {
+      "id": "q30",
+      "category": "broad",
+      "query": "Protecting database access and sensitive stored data",
+      "relevant_documents": [
+        "09_security.txt"
+      ],
+      "rationale": "Security covers access control and encryption."
+    },
+    {
+      "id": "q31",
+      "category": "broad",
+      "query": "Working with records and producing analytical reports",
+      "relevant_documents": [
+        "03_crud_operations.txt",
+        "05_aggregation.txt"
+      ],
+      "rationale": "CRUD covers record operations; aggregation covers reporting."
+    },
+    {
+      "id": "q32",
+      "category": "broad",
+      "query": "Choosing data layout and indexes for application access patterns",
+      "relevant_documents": [
+        "06_data_modeling.txt",
+        "04_indexing.txt"
+      ],
+      "rationale": "Modeling and indexing are both driven by workload access patterns."
+    },
+    {
+      "id": "q33",
+      "category": "natural_language",
+      "query": "I forgot to give my new document an ID. What happens and can I change it later?",
+      "relevant_documents": [
+        "02_collections_documents.txt"
+      ],
+      "rationale": "Collections describes automatic ObjectId creation and immutable _id."
+    },
+    {
+      "id": "q34",
+      "category": "natural_language",
+      "query": "I only need two fields from matching records. How can I avoid returning everything?",
+      "relevant_documents": [
+        "03_crud_operations.txt"
+      ],
+      "rationale": "CRUD describes projections limiting returned fields."
+    },
+    {
+      "id": "q35",
+      "category": "natural_language",
+      "query": "Our writes slowed down after we added lots of indexes. What should we check?",
+      "relevant_documents": [
+        "04_indexing.txt"
+      ],
+      "rationale": "Indexing explains write overhead and removing unused indexes."
+    },
+    {
+      "id": "q36",
+      "category": "natural_language",
+      "query": "I need to combine related records from another collection in a report. Which stage helps?",
+      "relevant_documents": [
+        "05_aggregation.txt"
+      ],
+      "rationale": "Aggregation describes lookup for combining collections."
+    },
+    {
+      "id": "q37",
+      "category": "natural_language",
+      "query": "My user document keeps growing as I add every event. Is this a good design?",
+      "relevant_documents": [
+        "06_data_modeling.txt"
+      ],
+      "rationale": "Modeling explicitly warns about embedding unbounded user events."
+    },
+    {
+      "id": "q38",
+      "category": "natural_language",
+      "query": "Can I read from a secondary if slightly old data is acceptable?",
+      "relevant_documents": [
+        "07_replication.txt"
+      ],
+      "rationale": "Replication describes read preference and stale reads."
+    },
+    {
+      "id": "q39",
+      "category": "natural_language",
+      "query": "We use timestamps as our shard key and one machine gets most new writes. Why?",
+      "relevant_documents": [
+        "08_sharding.txt"
+      ],
+      "rationale": "Sharding explains hotspots from monotonically increasing keys."
+    },
+    {
+      "id": "q40",
+      "category": "natural_language",
+      "query": "How do I decide acceptable data loss and prove we can restore service in time?",
+      "relevant_documents": [
+        "10_backup_monitoring.txt"
+      ],
+      "rationale": "Backups defines recovery point/time objectives and restoration drills."
+    }
+  ]
+}

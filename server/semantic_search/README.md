@@ -24,5 +24,44 @@ Run only one builder per source directory at a time. Uploads are batched and are
 not an atomic snapshot; a failed run can be retried to finish synchronization.
 Changing the absolute source directory creates a separate source in the collection.
 
-The BM25 search flow is unchanged. Stored vectors can be retrieved or searched
-with the Qdrant client `query_points` API using MiniLM query embeddings.
+## Semantic search
+
+From the project root:
+
+```powershell
+uv run python -m server.semantic_search.search "How does MongoDB recover when a primary fails?" --top-k 3
+```
+
+Pass multiple quoted queries to search them using one connection and the same
+cached MiniLM model. The CLI reads the same `.env` settings as the builder and
+prints JSON containing `document_name`, `chunk_id`, `text`, and `score` per hit.
+`--top-k` defaults to 5 and must be a positive integer. Empty queries are rejected.
+
+For Python callers, pass the existing client to reuse its connection:
+
+```python
+from server.semantic_search.search import semantic_search
+from server.semantic_search.vector_store import connect_qdrant
+
+client, collection = connect_qdrant()  # Once at application startup
+try:
+    results = semantic_search(
+        "How can I speed up slow MongoDB queries?",
+        client=client, collection=collection, top_k=3,
+    )
+    for result in results:
+        print(result.document_name, result.chunk_id, result.score, result.text)
+finally:
+    client.close()  # At application shutdown, after all searches
+```
+
+Search uses the indexing model's cached `get_embedding_model()` and validates a
+384-dimensional query vector. It performs read-only queries against the existing
+collection through Qdrant's [query_points API](https://qdrant.tech/documentation/search/search/).
+Results are chunks ordered by decreasing cosine similarity; scores are not
+probabilities. Multiple chunks may belong to the same document. Fewer than K
+results are returned if the collection has fewer points. Backend errors are
+propagated; searching never creates a missing collection or rebuilds the index.
+
+BM25 remains separate and unchanged. This module adds no hybrid search, RRF,
+reranking, RAG, LLM integration, or crawler.

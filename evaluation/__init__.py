@@ -1,0 +1,1 @@
+"""Reproducible document-retrieval evaluation."""
