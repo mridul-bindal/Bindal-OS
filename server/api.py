@@ -116,3 +116,11 @@ def search(
         count=len(results),
         results=results,
     )
+
+
+@app.get("/api/document")
+def get_document(file_name: str = Query(..., min_length=1)) -> dict[str, str]:
+    """Return only documents already loaded in the search corpus."""
+    if file_name not in state.file_data:
+        raise HTTPException(status_code=404, detail="Document not found")
+    return {"file_name": file_name, "text": state.file_data[file_name]}

@@ -272,6 +272,44 @@
   font-size: 0.98rem;
 }
 
+.hit__link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.hit__link:hover { text-decoration: underline; }
+.hit__link:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+.document-viewer {
+  width: min(850px, calc(100vw - 2rem));
+  max-height: 85vh;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: var(--shadow-strong);
+}
+
+.document-viewer::backdrop { background: rgba(15, 30, 45, 0.55); }
+.document-viewer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+.document-viewer__header h2 { margin: 0 0 0.5rem; overflow-wrap: anywhere; }
+.document-viewer__header .hit__path { overflow-wrap: anywhere; }
+.document-viewer__body { padding: 1.25rem; }
+.document-viewer__text { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.75; }
+
 .hit__snippet--muted {
   color: var(--muted);
 }

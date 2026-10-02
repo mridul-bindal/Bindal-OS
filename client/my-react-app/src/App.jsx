@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
+import DocumentViewer from './DocumentViewer'
 
 const API_BASE = import.meta.env.VITE_API_URL ?? ''
 
@@ -20,6 +21,7 @@ function App() {
   const [error, setError] = useState('')
   const [searched, setSearched] = useState(false)
   const inputRef = useRef(null)
+  const [selectedDocument, setSelectedDocument] = useState(null)
 
   useEffect(() => {
     if (!searched) {
@@ -189,7 +191,11 @@ function App() {
               results.map((hit) => (
                 <article key={hit.file_name} className="hit">
                   <p className="hit__path">{hit.file_name}</p>
-                  <h2 className="hit__title">{titleFromFileName(hit.file_name)}</h2>
+                  <h2 className="hit__title">
+                    <button type="button" className="hit__link" onClick={() => setSelectedDocument(hit.file_name)}>
+                      {titleFromFileName(hit.file_name)}
+                    </button>
+                  </h2>
                   {hit.snippet?.length > 0 ? (
                     <p className="hit__snippet">
                       {hit.snippet.join(' … ')}
@@ -204,6 +210,11 @@ function App() {
               ))}
           </section>
         </main>
+      )}
+
+      {selectedDocument && (
+        <DocumentViewer key={selectedDocument} fileName={selectedDocument}
+          title={titleFromFileName(selectedDocument)} onClose={() => setSelectedDocument(null)} />
       )}
 
       <footer className="footer">
