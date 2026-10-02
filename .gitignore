@@ -57,3 +57,7 @@ Thumbs.db
 
 # Generated search indexes
 data/*_index.json
+
+# Generated crawler documents
+crawler_output/
+crawler_index/

@@ -1,6 +1,6 @@
 """Create embeddings from original document-chunk text."""
 from collections.abc import Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from functools import lru_cache
 from typing import Any
 
@@ -19,6 +19,7 @@ class EmbeddedChunk:
     chunk_id: str
     text: str
     embedding: list[float]
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @lru_cache(maxsize=1)
@@ -43,6 +44,9 @@ def embed_chunks(
             document_name=chunk.document_name,
             chunk_id=chunk.chunk_id,
             text=chunk.text,
+            metadata={key: getattr(chunk, key) for key in
+                      ("source_url", "title", "content_hash", "crawled_at")
+                      if hasattr(chunk, key)},
             embedding=[float(
 value) for value in vector],
         )

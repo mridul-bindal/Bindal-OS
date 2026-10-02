@@ -78,6 +78,8 @@ def store_chunks(
                     id=str(uuid5(NAMESPACE_URL, f"{source}::{chunk.chunk_id}")),
                     vector=chunk.embedding,
                     payload={
+                        **{key: value for key, value in chunk.metadata.items()
+                           if key in {"source_url", "title", "content_hash", "crawled_at"}},
                         "source": source,
                         "indexer": "bindal_semantic_search",
                         "generation": generation,
