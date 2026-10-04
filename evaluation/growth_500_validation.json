@@ -1,0 +1,373 @@
+{
+  "pages_verified_by_domain": {
+    "developer.mozilla.org": 249,
+    "www.geeksforgeeks.org": 251
+  },
+  "chunks_verified_by_domain": {
+    "developer.mozilla.org": 2070,
+    "www.geeksforgeeks.org": 5018
+  },
+  "total_new_chunks_verified": 7088,
+  "collection_total_vectors": 9686,
+  "api_corpus_documents": 635,
+  "vector_dimensions": 384,
+  "checks": [
+    "saved content hashes",
+    "structural blocks",
+    "BM25 membership",
+    "Qdrant chunk completeness and uniqueness",
+    "metadata equality",
+    "vector dimensions",
+    "real hybrid/RRF/cross-encoder API queries"
+  ],
+  "queries": [
+    {
+      "query": "How can Git stash help manage unfinished work?",
+      "expected_url": "https://developer.mozilla.org/en-US/blog/optimize-your-workflow-git-stash/",
+      "expected_rank": 1,
+      "results": [
+        {
+          "title": "Optimize your workflow with Git stash",
+          "url": "https://developer.mozilla.org/en-US/blog/optimize-your-workflow-git-stash/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.03278688524590164,
+          "reranker_score": 3.790771484375
+        },
+        {
+          "title": "VS Code: Tips and tricks for beginners",
+          "url": "https://developer.mozilla.org/en-US/blog/vs-code-tips-tricks/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.031754032258064516,
+          "reranker_score": -1.726548433303833
+        },
+        {
+          "title": "Downloading gists from Github made simple - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/git/downloading-gists-from-github-made-simple/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.03200204813108039,
+          "reranker_score": -2.6776833534240723
+        },
+        {
+          "title": "9. Version control",
+          "url": "https://developer.mozilla.org/en-US/curriculum/core/version-control/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.03057889822595705,
+          "reranker_score": -5.921761512756348
+        },
+        {
+          "title": "Developer essentials: How to search code using grep",
+          "url": "https://developer.mozilla.org/en-US/blog/searching-code-with-grep/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.02797339593114241,
+          "reranker_score": -7.860674858093262
+        },
+        {
+          "title": "Reflections on AI Explain: A postmortem",
+          "url": "https://developer.mozilla.org/en-US/blog/ai-explain-postmortem/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.024266201685556526,
+          "reranker_score": -9.471559524536133
+        },
+        {
+          "title": "Optimizing DevSecOps workflows with GitLab's conditional CI/CD pipelines",
+          "url": "https://developer.mozilla.org/en-US/blog/optimizing-devsecops-workflows-with-gitlab-conditional-ci-cd-pipelines/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.031009615384615385,
+          "reranker_score": -10.006829261779785
+        },
+        {
+          "title": "Yash Raj Bharti - Contributor Spotlight | MDN",
+          "url": "https://developer.mozilla.org/en-US/community/spotlight/yash-raj-bharti",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.02180353122407868,
+          "reranker_score": -10.86716365814209
+        },
+        {
+          "title": "Monitoring and optimizing website performance",
+          "url": "https://developer.mozilla.org/en-US/blog/optimize-web-performance/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.0231841329402305,
+          "reranker_score": -10.965129852294922
+        },
+        {
+          "title": "Migrating from GitHub to GitLab seamlessly: A step-by-step guide",
+          "url": "https://developer.mozilla.org/en-US/blog/migrating-from-github-to-gitlab-seamlessly-a-step-by-step-guide/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.03007688828584351,
+          "reranker_score": -11.045244216918945
+        }
+      ]
+    },
+    {
+      "query": "Conditional CI/CD pipelines in GitLab",
+      "expected_url": "https://developer.mozilla.org/en-US/blog/optimizing-devsecops-workflows-with-gitlab-conditional-ci-cd-pipelines/",
+      "expected_rank": 1,
+      "results": [
+        {
+          "title": "Optimizing DevSecOps workflows with GitLab's conditional CI/CD pipelines",
+          "url": "https://developer.mozilla.org/en-US/blog/optimizing-devsecops-workflows-with-gitlab-conditional-ci-cd-pipelines/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.03278688524590164,
+          "reranker_score": 7.709395408630371
+        },
+        {
+          "title": "A year of publishing the MDN Blog",
+          "url": "https://developer.mozilla.org/en-US/blog/mdn-blog-one-year-on/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.0315136476426799,
+          "reranker_score": 5.478558540344238
+        },
+        {
+          "title": "Migrating from GitHub to GitLab seamlessly: A step-by-step guide",
+          "url": "https://developer.mozilla.org/en-US/blog/migrating-from-github-to-gitlab-seamlessly-a-step-by-step-guide/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.031754032258064516,
+          "reranker_score": 3.5329501628875732
+        },
+        {
+          "title": "Downloading gists from Github made simple - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/git/downloading-gists-from-github-made-simple/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.031746031746031744,
+          "reranker_score": 2.3608765602111816
+        },
+        {
+          "title": "Optimize your workflow with Git stash",
+          "url": "https://developer.mozilla.org/en-US/blog/optimize-your-workflow-git-stash/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.030330882352941176,
+          "reranker_score": -1.4356474876403809
+        },
+        {
+          "title": null,
+          "url": null,
+          "source": null,
+          "domain": null,
+          "rrf_score": 0.030536130536130537,
+          "reranker_score": -3.4774770736694336
+        },
+        {
+          "title": "Continuous integration - Glossary | MDN",
+          "url": "https://developer.mozilla.org/en-US/docs/Glossary/Continuous_integration",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.03007688828584351,
+          "reranker_score": -9.77401065826416
+        },
+        {
+          "title": "Converting Decimal Number lying between 1 to 3999 to Roman Numerals - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/converting-decimal-number-lying-between-1-to-3999-to-roman-numerals/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.014492753623188406,
+          "reranker_score": -10.12693977355957
+        },
+        {
+          "title": "Stream In Java - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/java/stream-in-java/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.014492753623188406,
+          "reranker_score": -10.34669303894043
+        },
+        {
+          "title": "6. JavaScript fundamentals",
+          "url": "https://developer.mozilla.org/en-US/curriculum/core/javascript-fundamentals/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.020939017808958446,
+          "reranker_score": -10.374542236328125
+        }
+      ]
+    },
+    {
+      "query": "The lazy caterer's problem",
+      "expected_url": "https://www.geeksforgeeks.org/dsa/the-lazy-caterers-problem/",
+      "expected_rank": 1,
+      "results": [
+        {
+          "title": "The Lazy Caterer's Problem - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/the-lazy-caterers-problem/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.03278688524590164,
+          "reranker_score": 8.325960159301758
+        },
+        {
+          "title": "Under the hood of MDN's new frontend",
+          "url": "https://developer.mozilla.org/en-US/blog/mdn-front-end-deep-dive/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.025678061306371368,
+          "reranker_score": -9.256505966186523
+        },
+        {
+          "title": "Stream In Java - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/java/stream-in-java/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.015873015873015872,
+          "reranker_score": -10.101948738098145
+        },
+        {
+          "title": "About Curriculum",
+          "url": "https://developer.mozilla.org/en-US/curriculum/about-curriculum/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.01689366160293347,
+          "reranker_score": -11.142318725585938
+        },
+        {
+          "title": "Fix your website's Largest Contentful Paint by optimizing image loading",
+          "url": "https://developer.mozilla.org/en-US/blog/fix-image-lcp/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.016129032258064516,
+          "reranker_score": -11.223716735839844
+        },
+        {
+          "title": "Implementing controls using the Gamepad API - Game development | MDN",
+          "url": "https://developer.mozilla.org/en-US/docs/Games/Techniques/Controls_Gamepad_API",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.024137478682933228,
+          "reranker_score": -11.278951644897461
+        },
+        {
+          "title": "Fixing your website's JavaScript performance",
+          "url": "https://developer.mozilla.org/en-US/blog/fix-javascript-performance/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.027730294396961064,
+          "reranker_score": -11.301961898803711
+        },
+        {
+          "title": "Celebrating 20 years of MDN",
+          "url": "https://developer.mozilla.org/en-US/blog/mdn-turns-20/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.01915018029431829,
+          "reranker_score": -11.311819076538086
+        },
+        {
+          "title": "Celebrating Global Accessibility Awareness Day",
+          "url": "https://developer.mozilla.org/en-US/blog/accessibility-celebrating-gaad-2023/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.016786331604839784,
+          "reranker_score": -11.317689895629883
+        },
+        {
+          "title": "Find Jobs involved in Weighted Job Scheduling - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/find-jobs-involved-in-weighted-job-scheduling/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.01657854152897114,
+          "reranker_score": -11.363428115844727
+        }
+      ]
+    },
+    {
+      "query": "Iterators in C++ STL",
+      "expected_url": "https://www.geeksforgeeks.org/cpp/iterators-c-stl/",
+      "expected_rank": 1,
+      "results": [
+        {
+          "title": "Iterators in C++ STL - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/cpp/iterators-c-stl/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.03278688524590164,
+          "reranker_score": 9.980819702148438
+        },
+        {
+          "title": "std::string class in C++ - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/cpp/stdstring-class-in-c/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.030798389007344232,
+          "reranker_score": 7.002660751342773
+        },
+        {
+          "title": "Forward List in C++ STL - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/cpp/forward-list-c-set-1-introduction-important-functions/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.03128054740957967,
+          "reranker_score": 6.087933540344238
+        },
+        {
+          "title": "std::partition in C++ STL - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/cpp/stdpartition-in-c-stl/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.029411764705882353,
+          "reranker_score": 5.684769153594971
+        },
+        {
+          "title": "Array class in C++ - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/cpp/array-class-c/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.03055037313432836,
+          "reranker_score": 5.035135746002197
+        },
+        {
+          "title": "Copy a Vector in C++ - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/cpp/ways-copy-vector-c/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.029437229437229435,
+          "reranker_score": 3.174309730529785
+        },
+        {
+          "title": "How to convert C style strings to std::string and vice versa? - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/c/how-to-convert-c-style-strings-to-stdstring-and-vice-versa/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.02946912242686891,
+          "reranker_score": 2.8719160556793213
+        },
+        {
+          "title": "Output of Java Program | Set 6 - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/java/output-java-program-set-6/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.024961240310077522,
+          "reranker_score": 2.197636127471924
+        },
+        {
+          "title": "Sorting 2D Vector in C++ | Set 2 (In descending order by row and column) - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/cpp/sorting-2d-vector-in-c-set-2-in-descending-order-by-row-and-column/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.026334026334026334,
+          "reranker_score": 0.024676170200109482
+        },
+        {
+          "title": "C qsort() vs C++ sort() - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/cpp/c-qsort-vs-c-sort/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.029386529386529386,
+          "reranker_score": -2.5591366291046143
+        }
+      ]
+    }
+  ]
+}

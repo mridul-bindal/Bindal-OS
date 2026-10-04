@@ -1,0 +1,60 @@
+{
+  "documents": {
+    "before": 121,
+    "after": 621,
+    "added": 500,
+    "by_domain": {
+      "developer.mozilla.org": 308,
+      "www.geeksforgeeks.org": 313
+    }
+  },
+  "chunks": {
+    "before": 2455,
+    "after": 9543,
+    "added": 7088
+  },
+  "qdrant": {
+    "points_before": 2598,
+    "points_after": 9686,
+    "points_added": 7088,
+    "raw_float32_vector_mib_estimate": 14.1884765625,
+    "actual_ram_disk_usage": "not measured; raw vector estimate excludes payloads and indexes",
+    "configured_vector_estimate_budget": 150000,
+    "projected_points_at_5000_documents": 119161
+  },
+  "average_chunks_per_document": {
+    "before": 20.289256198347108,
+    "after": 15.367149758454106,
+    "new_batch": 14.176
+  },
+  "batch": {
+    "documents_indexed": 500,
+    "chunks_created": 7088,
+    "page_attempts": 504,
+    "fetched_urls": 504,
+    "actual_qdrant_points": 9686,
+    "vectors_written": 7088,
+    "vectors_added": 7088,
+    "failures": 0,
+    "index_failures": 0,
+    "duplicates": 1,
+    "rejected_pages": 3,
+    "elapsed_seconds": 2002.1202340999153,
+    "average_chunks_per_document": 14.176
+  },
+  "quality_rejections": {
+    "soft_404": 1,
+    "too_short": 2
+  },
+  "duplicate_url_discoveries": 140190,
+  "robots_blocked_urls": 1,
+  "http_requests": 548,
+  "discovery_errors": [
+    {
+      "url": "https://www.geeksforgeeks.org/sitemap.xml",
+      "error_type": "HTTPStatusError",
+      "error_message": "Client error '403 Forbidden' for url 'https://www.geeksforgeeks.org/sitemap.xml'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+    }
+  ],
+  "stop_reason": "batch_complete"
+}
