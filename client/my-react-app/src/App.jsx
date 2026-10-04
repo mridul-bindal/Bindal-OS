@@ -190,10 +190,10 @@ function App() {
               !error &&
               results.map((hit) => (
                 <article key={hit.file_name} className="hit">
-                  <p className="hit__path">{hit.file_name}</p>
+                  <p className="hit__path">{hit.url || hit.file_name}</p>
                   <h2 className="hit__title">
                     <button type="button" className="hit__link" onClick={() => setSelectedDocument(hit.file_name)}>
-                      {titleFromFileName(hit.file_name)}
+                      {hit.title || titleFromFileName(hit.file_name)}
                     </button>
                   </h2>
                   {hit.snippet?.length > 0 ? (
@@ -205,7 +205,7 @@ function App() {
                       Matching document found.
                     </p>
                   )}
-                  <p className="hit__score">Relevance {hit.score.toFixed(2)}</p>
+                  {hit.url && <a href={hit.url} target="_blank" rel="noopener noreferrer">Visit source</a>}
                 </article>
               ))}
           </section>
@@ -214,12 +214,12 @@ function App() {
 
       {selectedDocument && (
         <DocumentViewer key={selectedDocument} fileName={selectedDocument}
-          title={titleFromFileName(selectedDocument)} onClose={() => setSelectedDocument(null)} />
+          title={results.find((hit) => hit.file_name === selectedDocument)?.title || titleFromFileName(selectedDocument)} onClose={() => setSelectedDocument(null)} />
       )}
 
       <footer className="footer">
         <span>Bindal search Engine</span>
-        <span>BM25 ranking</span>
+        <span>Hybrid search</span>
       </footer>
     </div>
   )

@@ -58,8 +58,8 @@ def index_crawled_chunks(
     for url, unique in grouped.items():
         page = list(unique.values())
         first = page[0]
-        metadata = (first.document_name, first.content_hash, first.title, first.crawled_at)
-        if any((c.document_name, c.content_hash, c.title, c.crawled_at) != metadata for c in page):
+        metadata = (first.document_name, first.content_hash, first.title, first.crawled_at, first.source, first.domain)
+        if any((c.document_name, c.content_hash, c.title, c.crawled_at, c.source, c.domain) != metadata for c in page):
             raise ValueError("Supply one consistent document revision per URL")
         try:
             page.sort(key=lambda c: int(c.chunk_id.rsplit("::chunk-", 1)[1]))
@@ -89,7 +89,7 @@ def index_crawled_chunks(
         ordered_chunks[url] = page
         updates[url] = {"document_name": first.document_name, "text": text,
                         "chunks": [{k: list(v) if isinstance(v, tuple) else v for k, v in asdict(c).items() if k not in {"source_text", "source_blocks"}} for c in page],
-                        "blocks": first.source_blocks}
+                        "blocks": first.source_blocks, "source": first.source, "domain": first.domain}
 
     documents = {**previous["documents"], **updates}
     names = [document["document_name"] for document in documents.values()]

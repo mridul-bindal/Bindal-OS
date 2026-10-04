@@ -38,12 +38,17 @@ def test_mongodb_variants_have_same_hits():
 
 
 def test_api_uses_same_query_representation_as_direct_bm25(monkeypatch):
+    from dataclasses import asdict
     from fastapi.testclient import TestClient
     from server.api import app, state
     documents = {"compound": "vectorstore", "phrase": "vector and store"}
     index = build_bm25_index(documents)
     monkeypatch.setattr(state, "file_data", documents)
     monkeypatch.setattr(state, "bm25_index", index)
+    monkeypatch.setattr(state, "client", object())
+    monkeypatch.setattr("server.hybrid_search.service.semantic_search", lambda *a, **kw: [])
+    monkeypatch.setattr("server.hybrid_search.service.rerank", lambda query, hits, **kw: [
+        {**asdict(hit), "text": documents[hit.document_name], "reranker_score": 1.0} for hit in hits])
     response = TestClient(app).get("/api/search", params={"q": "vector and store"})
     assert response.status_code == 200
     assert [r["file_name"] for r in response.json()["results"]] == [

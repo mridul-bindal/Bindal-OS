@@ -1,0 +1,90 @@
+{
+  "config": {
+    "allowed_domains": [
+      "developer.mozilla.org",
+      "www.geeksforgeeks.org"
+    ],
+    "sources": {
+      "developer.mozilla.org": "mdn",
+      "www.geeksforgeeks.org": "gfg"
+    },
+    "seeds": [
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+      "https://www.geeksforgeeks.org/mongodb/mongodb-replication-and-sharding/"
+    ],
+    "max_pages_total": 50,
+    "max_pages_per_domain": 25,
+    "max_depth": 3,
+    "request_delay": 2.0,
+    "timeout": 20.0,
+    "respect_robots_txt": true,
+    "user_agent": "Bindal-OS-Crawler/0.1",
+    "max_sitemaps_per_domain": 4,
+    "max_frontier_per_domain": 60000,
+    "max_links_per_page": 2000,
+    "max_response_bytes": 20000000,
+    "discovery_pages_per_domain": 2,
+    "index_batch_size": 25
+  },
+  "dry_run": false,
+  "domains": {
+    "developer.mozilla.org": {
+      "crawled": 25,
+      "queued": 25238,
+      "skipped": 10
+    },
+    "www.geeksforgeeks.org": {
+      "crawled": 24,
+      "queued": 2340,
+      "skipped": 2
+    }
+  },
+  "indexed_by_domain": {
+    "developer.mozilla.org": 25,
+    "www.geeksforgeeks.org": 24
+  },
+  "events": {
+    "discovered_seed": 2,
+    "discovery_failures": 1,
+    "discovered_sitemap": 27234,
+    "duplicate_urls": 5521,
+    "rejected_non_page": 10,
+    "rejected_domain": 885,
+    "discovered_link": 403,
+    "rejected_robots": 1,
+    "duplicate_content": 1
+  },
+  "eligible_by_domain": {
+    "developer.mozilla.org": 25263,
+    "www.geeksforgeeks.org": 2364
+  },
+  "selected_by_domain": {
+    "developer.mozilla.org": 25,
+    "www.geeksforgeeks.org": 25
+  },
+  "attempted_by_domain": {
+    "developer.mozilla.org": 25,
+    "www.geeksforgeeks.org": 25
+  },
+  "sampled_by_domain": {},
+  "http_requests": 60,
+  "sitemaps": {
+    "fetched_or_rejected": {
+      "developer.mozilla.org": 4,
+      "www.geeksforgeeks.org": 4
+    },
+    "pending": {
+      "developer.mozilla.org": 7,
+      "www.geeksforgeeks.org": 201
+    }
+  },
+  "discovery_errors": [
+    {
+      "url": "https://www.geeksforgeeks.org/sitemap.xml",
+      "error_type": "HTTPStatusError",
+      "error_message": "Client error '403 Forbidden' for url 'https://www.geeksforgeeks.org/sitemap.xml'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+    }
+  ],
+  "robots_errors": {},
+  "stop_reason": "page_limits_or_eligible_frontier_exhausted"
+}

@@ -1,4 +1,145 @@
-# Single-page crawler with exact content deduplication
+# Crawler: single pages and controlled multi-page runs
+
+## Controlled corpus growth
+
+Use Python 3.10+ and `uv sync` from the project root. Qdrant credentials remain
+in `server/semantic_search/.env`. Existing BM25, MiniLM, structure-aware chunking,
+vector storage, RRF and cross-encoder ranking are reused.
+
+The default configuration targets **5,000 quality-approved indexed documents**,
+with at most **2,500 per domain**, but each invocation adds at most **50 new
+successful documents**. Nothing starts a 5,000-document crawl automatically.
+
+```powershell
+uv run python -m server.crawler.multipage --dry-run --run-dir crawler_runs/quality-discovery --max-sitemaps-per-domain 8
+uv run python -m server.crawler.multipage --run-dir crawler_runs/quality-live --batch-documents 50
+```
+
+Repeat the live command to add the next batch. Use the same run directory, output
+directory and index manifest to resume. A completed URL is not fetched or indexed
+again, including URLs found in the existing corpus before this frontier was
+created. Failed indexing can be retried from saved documents with `--retry-failed`.
+A committed manifest recovers a crash before the frontier was acknowledged.
+
+For recovery without discovering or fetching new URLs, add `--retry-only`.
+This retries previously attempted URLs; saved indexing failures need no website
+requests. A previously failed HTTP fetch may still need another request.
+
+Change scale without editing source code, for example:
+
+```powershell
+uv run python -m server.crawler.multipage --run-dir crawler_runs/quality-live --target-documents 500 --max-documents-per-domain 250 --batch-documents 50
+uv run python -m server.crawler.multipage --run-dir crawler_runs/quality-live --target-documents 2000 --max-documents-per-domain 1000 --batch-documents 500
+uv run python -m server.crawler.multipage --run-dir crawler_runs/quality-live --target-documents 5000 --max-documents-per-domain 2500 --batch-documents 500
+```
+
+These are manual examples, not scheduled jobs. After reviewing statistics, a
+10,000 target can likewise use `--target-documents 10000` and
+`--max-documents-per-domain 5000`. The configured vector estimate may block that
+increase; choose your own budget before increasing it. Corpus targets include
+already indexed pages that pass the current quality/metadata checks. Original
+local text files are outside the two web-domain targets. Old low-quality or
+unlabelled pages remain stored/searchable but are explicitly excluded from the
+new successful-document target; this task does not delete existing data.
+
+### Quality checks
+
+`quality.py` runs after extraction and **before saving, hashing history updates,
+chunking, embedding or indexing**. Single-page crawling behaves as before unless
+its optional `quality_check` callback is supplied. Checks combine text length,
+word count, unique vocabulary, repeated lines, navigation-like lines and
+boilerplate density. Error-title checks distinguish obvious soft-404/error pages
+from tutorials discussing HTTP status codes. They are transparent heuristics,
+not a relevance or language model; some low-value pages can still pass.
+
+Rejected pages have structured reason codes (`empty_content`, `too_short`,
+`insufficient_content`, `soft_404`, `error_page`, `boilerplate`,
+`navigation_content`) and measured values in the frontier. Links on rejected
+pages may still discover useful documents. Thresholds live in the `quality`
+object of `crawl_config.json`; use `--config path.json` for another configuration.
+Previously rejected pages are not automatically revisited on every resume.
+
+### Targets and safety budgets
+
+- `target_documents`: global successful web-document target; default 5,000.
+- `max_documents_per_domain`: successful per-domain cap; default 2,500. Selection
+  alternates between domains while respecting each cap.
+- `batch_documents`: maximum additional successes in this invocation; default 50.
+- `index_batch_size`: number of accepted pages sent to the existing indexer per
+  write batch; default 25. Pending pages reserve target slots to prevent overshoot.
+- `max_attempts_total` / `max_attempts_per_domain`: persistent page-fetch safety
+  limits, including retries/failures/duplicates; defaults 20,000 / 10,000. Saved
+  document indexing retries do not consume another fetch attempt.
+- `max_requests`: persistent HTTP safety limit including robots, sitemap and
+  redirect requests; default 50,000. Increase explicitly if a later batch exhausts it.
+- `max_vectors_estimate`: user-selected vector estimate budget; default 150,000.
+  This is **not** a claim about any Qdrant plan's capacity.
+- `estimated_chunks_per_document`: fallback/conservative floor, default 25.
+
+Before discovery, the crawler reports existing successful documents, observed
+chunks/document, actual Qdrant points when available, and the projected total:
+
+```text
+existing points + remaining target documents * max(observed average, configured estimate)
+```
+
+If the projection exceeds the budget, crawling stops before any site requests.
+The projection is refreshed after successful indexing batches. It is an estimate,
+not a hard Qdrant storage limit: document sizes vary. When point count is
+unavailable, local chunk statistics provide a fallback and the report records
+that the remote count is unknown. Dry-run does not contact Qdrant, so its estimate
+uses local statistics. A small batch still checks the overall selected target.
+
+The deprecated `max_pages_total` / `max_pages_per_domain` configuration keys and
+CLI flags retain their old **attempt-cap** meanings. Use the new document-target
+options for successful corpus growth.
+
+### Discovery, persistence and reports
+
+Sitemap indexes, nested references, gzip and HTML links share a SQLite frontier.
+Exact allowed domains, normalized URL identity, depth limits, robots rules and
+sequential per-domain delays apply throughout, including redirect destinations.
+[Protego](https://github.com/scrapy/protego) handles robots rules; robots cannot be
+disabled. A missing robots file (404/410) allows crawling; other failures fail
+closed. External sitemap/redirect targets are rejected. Static HTML only.
+Trailing slash and query-order distinctions are retained; fragments and obvious
+encoding/host duplicates are normalized. Sitemap pages start at depth zero;
+page links increase depth by one. Bounded sitemap/frontier discovery means
+eligible counts describe the inspected subset, not a full website census.
+
+A dry run samples limited pages for links but never saves documents or indexes.
+Keep dry/live run directories separate. Runs store `frontier.sqlite3`, `mode.json`,
+`report.json` and an immutable-per-invocation `batch-NNNN.json` history. Reports
+separate discovered/eligible/fetched/extracted/accepted/rejected/indexed pages,
+URL/content duplicates, robots blocks, request/index failures and soft-404s.
+They include per-domain corpus counts, chunks, averages, vector estimates,
+actual points, elapsed time and stop reason. Frontier totals include reconciled
+pre-existing documents; `batch` describes only this invocation. Per-page reasons
+and error messages are retained in SQLite.
+
+`vectors_added` is the actual collection count delta when both endpoint counts
+are available, so it includes partial uploads from a failed batch. `vectors_written`
+and `chunks_created` describe successfully committed indexing batches. They may
+differ during failures or idempotent recovery. Request and indexing failures are
+reported separately. Each recovery invocation has its own batch report.
+
+Runtime data is Git-ignored. Documents remain in `crawler_output/` and the shared
+BM25/metadata manifest in `crawler_index/index.json`. Source/domain, URL, title,
+crawl timestamp, hash and chunk metadata survive the existing indexing/search
+pipeline. Qdrant's separate `index_scope` preserves per-document replacement.
+Use one writer. Local JSON/SQLite and Qdrant are not a distributed transaction;
+retry saved failed batches to finish synchronization. Shared BM25 corpus rebuilds
+and manifest rewrites remain a scaling cost; `index_batch_size` controls how often
+that cost occurs. Restart the backend after indexing to reload its corpus.
+
+New growth components: `quality.py`, `budget.py`, and `index_adapter.py`. The
+adapter adds receipts/statistics around the existing indexer; it does not replace
+any retrieval or indexing algorithm. Unit tests use mocked HTTP and models.
+`python -m evaluation.validate_crawler --run-dir <run-dir> --output <report.json>`
+performs manual, read-only checks against the real collection and API. An optional
+`--query-set` supplies JSON rows `[query, source, expected_url]` for newly added pages.
+
+## Single-page usage
 
 ```python
 from server.crawler import crawl_url
@@ -57,8 +198,9 @@ prose whitespace is normalized. `<pre>` code retains indentation and internal sp
 with blank lines removed. Selection is deliberately heuristic, so unusual layouts
 may need better extraction in a later phase.
 
-This phase fetches static HTML only. It does not execute JavaScript, discover links,
-recurse, index documents, or call any search/embedding service.
+The single-page entry point fetches static HTML only. It does not execute
+JavaScript, discover links, recurse, index documents, or call a search/embedding
+service. The separate multi-page entry point above adds orchestration.
 
 Unit tests use HTTPX MockTransport and never contact live websites. Implementation
 references: [HTTPX](https://www.python-httpx.org/quickstart/) and

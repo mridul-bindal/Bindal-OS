@@ -20,6 +20,8 @@ class CrawledDocumentChunk(DocumentChunk):
     title: str
     content_hash: str
     crawled_at: str | None = None
+    source: str | None = None
+    domain: str | None = None
     heading_path: tuple[str, ...] = ()
     chunk_index: int = 0
     token_count: int | None = None
@@ -89,6 +91,8 @@ def chunk_crawled_documents(
             title=title,
             content_hash=digest,
             crawled_at=crawled_at,
+            source=document.get("source"),
+            domain=document.get("domain"),
             heading_path=getattr(chunk, "heading_path", ()),
             chunk_index=int(chunk.chunk_id.rsplit("-", 1)[1]),
             token_count=getattr(chunk, "token_count", None),

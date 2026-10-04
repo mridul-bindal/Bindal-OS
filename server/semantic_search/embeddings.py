@@ -48,7 +48,7 @@ def embed_chunks(
             chunk_id=chunk.chunk_id,
             text=chunk.text,
             metadata={key: getattr(chunk, key) for key in
-                      ("source_url", "url", "title", "content_hash", "crawled_at", "heading_path", "chunk_index", "token_count", "chunking_config")
+                      ("source_url", "url", "title", "content_hash", "crawled_at", "source", "domain", "heading_path", "chunk_index", "token_count", "chunking_config")
                       if hasattr(chunk, key)},
             embedding=[float(
 value) for value in vector],

@@ -1,0 +1,373 @@
+{
+  "pages_verified_by_domain": {
+    "developer.mozilla.org": 25,
+    "www.geeksforgeeks.org": 24
+  },
+  "chunks_verified_by_domain": {
+    "developer.mozilla.org": 431,
+    "www.geeksforgeeks.org": 644
+  },
+  "total_new_chunks_verified": 1075,
+  "collection_total_vectors": 1214,
+  "api_corpus_documents": 60,
+  "vector_dimensions": 384,
+  "checks": [
+    "saved content hashes",
+    "structural blocks",
+    "BM25 membership",
+    "Qdrant chunk completeness and uniqueness",
+    "metadata equality",
+    "vector dimensions",
+    "real hybrid/RRF/cross-encoder API queries"
+  ],
+  "queries": [
+    {
+      "query": "How do CSS color-mix functions create color palettes?",
+      "expected_url": "https://developer.mozilla.org/en-US/blog/color-palettes-css-color-mix/",
+      "expected_rank": 1,
+      "results": [
+        {
+          "title": "Creating color palettes with the CSS color-mix() function",
+          "url": "https://developer.mozilla.org/en-US/blog/color-palettes-css-color-mix/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.03278688524590164,
+          "reranker_score": 7.979663372039795
+        },
+        {
+          "title": "New functions, gradients, and hues in CSS colors (Level 4)",
+          "url": "https://developer.mozilla.org/en-US/blog/css-color-module-level-4/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.03225806451612903,
+          "reranker_score": 5.082308769226074
+        },
+        {
+          "title": "How :not() chains multiple selectors",
+          "url": "https://developer.mozilla.org/en-US/blog/css-not-pseudo-multiple-selectors/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.030303030303030304,
+          "reranker_score": -2.675333023071289
+        },
+        {
+          "title": "Exploring the Broadcast Channel API for cross-tab communication",
+          "url": "https://developer.mozilla.org/en-US/blog/exploring-the-broadcast-channel-api-for-cross-tab-communication/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.029709507042253523,
+          "reranker_score": -4.750056266784668
+        },
+        {
+          "title": "Creating custom easing effects in CSS animations using the linear() function",
+          "url": "https://developer.mozilla.org/en-US/blog/custom-easing-in-css-with-linear/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.030309988518943745,
+          "reranker_score": -4.834194183349609
+        },
+        {
+          "title": "Border images in CSS: A key focus area for Interop 2023",
+          "url": "https://developer.mozilla.org/en-US/blog/border-images-interop-2023/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.030090497737556562,
+          "reranker_score": -7.901542663574219
+        },
+        {
+          "title": "Celebrating Global Accessibility Awareness Day",
+          "url": "https://developer.mozilla.org/en-US/blog/accessibility-celebrating-gaad-2023/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.03055037313432836,
+          "reranker_score": -8.575366973876953
+        },
+        {
+          "title": "Image formats: Color models for humans and devices",
+          "url": "https://developer.mozilla.org/en-US/blog/color-models-humans-devices/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.031746031746031744,
+          "reranker_score": -8.838982582092285
+        },
+        {
+          "title": "Baseline's evolution on MDN",
+          "url": "https://developer.mozilla.org/en-US/blog/baseline-evolution-on-mdn/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.027272727272727275,
+          "reranker_score": -10.047637939453125
+        },
+        {
+          "title": "C qsort() vs C++ sort() - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/cpp/c-qsort-vs-c-sort/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.013333333333333334,
+          "reranker_score": -10.071895599365234
+        }
+      ]
+    },
+    {
+      "query": "Convert a min heap to a max heap",
+      "expected_url": "https://www.geeksforgeeks.org/dsa/convert-min-heap-to-max-heap/",
+      "expected_rank": 1,
+      "results": [
+        {
+          "title": "Convert Min Heap to Max Heap - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/convert-min-heap-to-max-heap/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.03278688524590164,
+          "reranker_score": 9.142602920532227
+        },
+        {
+          "title": "Smallest Range with Elements from k Sorted Lists - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/find-smallest-range-containing-elements-from-k-lists/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.03225806451612903,
+          "reranker_score": 0.6060162782669067
+        },
+        {
+          "title": "Combinatorial Game Theory | Set 4 (Sprague - Grundy Theorem) - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/combinatorial-game-theory-set-4-sprague-grundy-theorem/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.029273504273504274,
+          "reranker_score": -3.740910530090332
+        },
+        {
+          "title": "Traveling Salesman Problem using Branch And Bound - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/traveling-salesman-problem-using-branch-and-bound-2/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.031746031746031744,
+          "reranker_score": -6.152398109436035
+        },
+        {
+          "title": "Maximum number possible by doing at-most K swaps - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/find-maximum-number-possible-by-doing-at-most-k-swaps/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.031009615384615385,
+          "reranker_score": -8.94001579284668
+        },
+        {
+          "title": "Largest with given number of digits and sum - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/find-the-largest-number-with-given-number-of-digits-and-sum-of-digits/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.013888888888888888,
+          "reranker_score": -9.938802719116211
+        },
+        {
+          "title": "Find maximum length Snake sequence - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/find-maximum-length-snake-sequence/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.029411764705882353,
+          "reranker_score": -9.992010116577148
+        },
+        {
+          "title": "Adobe Interview Experience | Set 36 (Off-Campus Drive) - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/interview-experiences/adobe-interview-experience-set-36-off-campus-drive/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.013513513513513514,
+          "reranker_score": -10.893896102905273
+        },
+        {
+          "title": "Creating color palettes with the CSS color-mix() function",
+          "url": "https://developer.mozilla.org/en-US/blog/color-palettes-css-color-mix/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.015625,
+          "reranker_score": -10.903804779052734
+        },
+        {
+          "title": "Creating custom easing effects in CSS animations using the linear() function",
+          "url": "https://developer.mozilla.org/en-US/blog/custom-easing-in-css-with-linear/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.014925373134328358,
+          "reranker_score": -11.038297653198242
+        }
+      ]
+    },
+    {
+      "query": "Broadcast Channel API communication between browser tabs",
+      "expected_url": "https://developer.mozilla.org/en-US/blog/exploring-the-broadcast-channel-api-for-cross-tab-communication/",
+      "expected_rank": 1,
+      "results": [
+        {
+          "title": "Exploring the Broadcast Channel API for cross-tab communication",
+          "url": "https://developer.mozilla.org/en-US/blog/exploring-the-broadcast-channel-api-for-cross-tab-communication/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.03278688524590164,
+          "reranker_score": 9.217510223388672
+        },
+        {
+          "title": "Efficient data handling with the Streams API",
+          "url": "https://developer.mozilla.org/en-US/blog/efficient-data-handling-with-the-streams-api/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.031754032258064516,
+          "reranker_score": -9.861062049865723
+        },
+        {
+          "title": "JavaScript | MDN",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.030303030303030304,
+          "reranker_score": -9.90186882019043
+        },
+        {
+          "title": "Build AI-powered applications using OpenLLM and Vultr Cloud GPU",
+          "url": "https://developer.mozilla.org/en-US/blog/build-ai-powered-apps-openllm-vultr-gpu/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.03057889822595705,
+          "reranker_score": -10.626026153564453
+        },
+        {
+          "title": "Border images in CSS: A key focus area for Interop 2023",
+          "url": "https://developer.mozilla.org/en-US/blog/border-images-interop-2023/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.027417840375586856,
+          "reranker_score": -10.976216316223145
+        },
+        {
+          "title": "Baseline's evolution on MDN",
+          "url": "https://developer.mozilla.org/en-US/blog/baseline-evolution-on-mdn/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.029273504273504274,
+          "reranker_score": -11.019038200378418
+        },
+        {
+          "title": "About MDN",
+          "url": "https://developer.mozilla.org/en-US/about",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.029631255487269532,
+          "reranker_score": -11.048993110656738
+        },
+        {
+          "title": "Deploying Node.js applications with PM2 on Vultr",
+          "url": "https://developer.mozilla.org/en-US/blog/deploying-node-js-applications-with-pm2-on-vultr/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.028814262023217248,
+          "reranker_score": -11.116571426391602
+        },
+        {
+          "title": "MDN Blog",
+          "url": "https://developer.mozilla.org/en-US/blog/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.026144907723855092,
+          "reranker_score": -11.117857933044434
+        },
+        {
+          "title": "Celebrating Global Accessibility Awareness Day",
+          "url": "https://developer.mozilla.org/en-US/blog/accessibility-celebrating-gaad-2023/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.02819138376017471,
+          "reranker_score": -11.151284217834473
+        }
+      ]
+    },
+    {
+      "query": "Find the smallest range containing elements from k sorted lists",
+      "expected_url": "https://www.geeksforgeeks.org/dsa/find-smallest-range-containing-elements-from-k-lists/",
+      "expected_rank": 1,
+      "results": [
+        {
+          "title": "Smallest Range with Elements from k Sorted Lists - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/find-smallest-range-containing-elements-from-k-lists/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.03278688524590164,
+          "reranker_score": 8.546045303344727
+        },
+        {
+          "title": null,
+          "url": null,
+          "source": null,
+          "domain": null,
+          "rrf_score": 0.015384615384615385,
+          "reranker_score": -7.348423480987549
+        },
+        {
+          "title": "Find a permutation that causes worst case of Merge Sort - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/find-a-permutation-that-causes-worst-case-of-merge-sort/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.03200204813108039,
+          "reranker_score": -7.470935344696045
+        },
+        {
+          "title": "Maximum number possible by doing at-most K swaps - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/find-maximum-number-possible-by-doing-at-most-k-swaps/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.030536130536130537,
+          "reranker_score": -7.764613628387451
+        },
+        {
+          "title": "C qsort() vs C++ sort() - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/cpp/c-qsort-vs-c-sort/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.014084507042253521,
+          "reranker_score": -9.533281326293945
+        },
+        {
+          "title": "K'th Non-repeating Character - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/kth-non-repeating-character/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.028814262023217248,
+          "reranker_score": -9.62153434753418
+        },
+        {
+          "title": "How :not() chains multiple selectors",
+          "url": "https://developer.mozilla.org/en-US/blog/css-not-pseudo-multiple-selectors/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.014285714285714285,
+          "reranker_score": -10.192265510559082
+        },
+        {
+          "title": "Cocktail Sort - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/cocktail-sort/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.031754032258064516,
+          "reranker_score": -10.420488357543945
+        },
+        {
+          "title": "Product Pair - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/pair-with-given-product-set-1-find-if-any-pair-exists/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.029386529386529386,
+          "reranker_score": -10.692605018615723
+        },
+        {
+          "title": "Smallest number with given digit count and sum - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/find-smallest-number-with-given-number-of-digits-and-digit-sum/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.029857397504456328,
+          "reranker_score": -10.738296508789062
+        }
+      ]
+    }
+  ]
+}

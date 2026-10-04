@@ -31,7 +31,7 @@ def test_query_reuses_cached_model_and_client_and_maps_results(monkeypatch):
     assert client.query_points.call_count == 2
     client.query_points.assert_called_with(
         collection_name="bindal_document_chunks", query=vector(), limit=2,
-        with_payload=["document_name", "chunk_id", "text"], with_vectors=False)
+        with_payload=["document_name", "chunk_id", "text", "source", "domain"], with_vectors=False)
     client.close.assert_not_called()
     client.create_collection.assert_not_called()
 

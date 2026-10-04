@@ -1,5 +1,25 @@
 # Reciprocal Rank Fusion
 
+## Web application integration
+
+`GET /api/search?q=...` runs lexical and semantic retrieval, RRF, then the cached
+cross-encoder. It does not fall back to BM25-only results on a dependency failure;
+the API returns 503 instead. The frontend displays the final ranking and opens
+local/crawled documents using `/api/document`.
+
+At startup the API combines local `data/*.txt` and the crawler indexing manifest
+into one BM25 corpus, opens a shared Qdrant client using the existing `.env`, and
+closes that client on shutdown. Models are loaded lazily through their existing
+caches, so the first search may take longer. Restart the backend after indexing
+new crawler documents to refresh its corpus snapshot.
+
+Query parameters: `top_k=10` (1–50), `candidate_k=20` (1–100), and
+`semantic_k=200` (1–1000 chunk candidates). `top_k` cannot exceed `candidate_k`.
+The semantic pool is bounded and only documents available in the API's current
+corpus are returned. Increase its depth for larger collections where multiple
+chunks crowd out document candidates. The response includes original retrieval
+scores, RRF/reranker scores, chunk text, and available webpage title/URL.
+
 `reciprocal_rank_fusion` accepts existing ranked outputs and returns document-level
 results. It does not load models, connect to Qdrant, or call either retriever.
 BM25 and semantic-search implementations remain unchanged.

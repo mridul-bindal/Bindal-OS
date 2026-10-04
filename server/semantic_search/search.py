@@ -17,6 +17,8 @@ class SemanticSearchResult:
     chunk_id: str
     text: str
     score: float
+    source: str | None = None
+    domain: str | None = None
 
 
 def semantic_search(
@@ -51,7 +53,7 @@ def semantic_search(
         collection_name=collection,
         query=vector,
         limit=top_k,
-        with_payload=["document_name", "chunk_id", "text"],
+        with_payload=["document_name", "chunk_id", "text", "source", "domain"],
         with_vectors=False,
     )
     results = []
@@ -65,6 +67,8 @@ def semantic_search(
             chunk_id=payload["chunk_id"],
             text=payload["text"],
             score=float(point.score),
+            source=payload.get("source"),
+            domain=payload.get("domain"),
         ))
     return results
 

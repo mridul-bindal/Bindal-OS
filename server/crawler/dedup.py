@@ -38,11 +38,15 @@ class ContentHashRecord:
     updating the record. Corrupt records raise instead of silently losing history.
     """
 
-    def __init__(self, output_dir: Path):
+    def __init__(self, output_dir: Path, *, cache: bool = False):
         self.directory = Path(output_dir)
         self.path = self.directory / "content_hashes.json"
+        self.cache = cache
+        self._cached = None
 
     def _read(self) -> dict[str, str]:
+        if self.cache and self._cached is not None:
+            return dict(self._cached)
         records = json.loads(self.path.read_text(encoding="utf-8")) if self.path.exists() else {}
         if not isinstance(records, dict) or any(
             not isinstance(key, str) or len(key) != 64 or
@@ -55,6 +59,8 @@ class ContentHashRecord:
                 continue
             document = json.loads(path.read_text(encoding="utf-8"))
             records.setdefault(content_hash(document["text"]), document["url"])
+        if self.cache:
+            self._cached = dict(records)
         return records
 
     def has_seen(self, text: str) -> bool:
@@ -66,3 +72,5 @@ class ContentHashRecord:
 
     def persist(self, records: dict[str, str]) -> None:
         write_json_atomic(self.path, records)
+        if self.cache:
+            self._cached = dict(records)

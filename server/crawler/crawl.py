@@ -11,7 +11,9 @@ from .dedup import content_hash
 
 
 def crawl_url(url: str, *, output_dir: Path | None = DEFAULT_OUTPUT_DIR,
-              timeout: float = 20.0, client: httpx.Client | None = None) -> dict:
+              timeout: float = 20.0, client: httpx.Client | None = None,
+              source: str | None = None, domain: str | None = None,
+              hash_record=None, quality_check=None) -> dict:
     """Return document metadata, typed HTML blocks, content_hash, and duplicate status.
 
     is_duplicate is False when saved, True when skipped, or None when
@@ -29,12 +31,18 @@ def crawl_url(url: str, *, output_dir: Path | None = DEFAULT_OUTPUT_DIR,
     else:
         html = fetch_html(url, client=client, timeout=timeout)
     title, text, blocks = extract_structured_content(html)
-    if not text:
+    if not text and quality_check is None:
         raise CrawlError("Page contains no usable text")
     document = {"url": url, "title": title, "text": text, "blocks": blocks,
                 "content_hash": content_hash(text),
                 "crawled_at": datetime.now(timezone.utc).isoformat()}
     document["is_duplicate"] = None
+    if source is not None:
+        document["source"] = source
+    if domain is not None:
+        document["domain"] = domain
+    if quality_check is not None:
+        quality_check(document)
     if output_dir is not None:
-        document["is_duplicate"] = save_document(document, output_dir) is None
+        document["is_duplicate"] = save_document(document, output_dir, hash_record=hash_record) is None
     return document

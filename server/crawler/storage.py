@@ -12,14 +12,14 @@ def url_filename(url: str) -> str:
     return hashlib.sha256(validate_url(url).encode("utf-8")).hexdigest() + ".json"
 
 
-def save_document(document: dict, output_dir: Path = DEFAULT_OUTPUT_DIR) -> Path | None:
+def save_document(document: dict, output_dir: Path = DEFAULT_OUTPUT_DIR, *, hash_record=None) -> Path | None:
     """Save unseen content; return None for duplicates without modifying their files.
 
     Updated content at the same URL replaces that URL's file. Its old hash stays
     in the seen history. A single sequential crawler should own an output directory.
     """
     path = Path(output_dir) / url_filename(document["url"])
-    record = ContentHashRecord(Path(output_dir))
+    record = hash_record if hash_record is not None else ContentHashRecord(Path(output_dir))
     records = record.records()
     digest = content_hash(document["text"])
     if digest in records:
@@ -29,6 +29,9 @@ def save_document(document: dict, output_dir: Path = DEFAULT_OUTPUT_DIR) -> Path
     payload["content_hash"] = digest
     if "blocks" in document:
         payload["blocks"] = document["blocks"]
+    for key in ("source", "domain"):
+        if key in document:
+            payload[key] = document[key]
     write_json_atomic(path, payload)
     records[digest] = document["url"]
     record.persist(records)

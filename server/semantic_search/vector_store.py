@@ -42,7 +42,7 @@ def ensure_collection(client: QdrantClient, collection: str) -> None:
     ):
         raise ValueError(f"Collection {collection!r} must use unnamed 384-dimensional cosine vectors")
     # Qdrant Cloud strict mode requires indexes for payload filters.
-    for field in ("source", "indexer", "generation"):
+    for field in ("source", "index_scope", "indexer", "generation"):
         if field not in info.payload_schema:
             client.create_payload_index(
                 collection_name=collection,
@@ -79,8 +79,9 @@ def store_chunks(
                     vector=chunk.embedding,
                     payload={
                         **{key: value for key, value in chunk.metadata.items()
-                           if key in {"source_url", "url", "title", "content_hash", "crawled_at", "heading_path", "chunk_index", "token_count", "chunking_config"}},
-                        "source": source,
+                           if key in {"source_url", "url", "title", "content_hash", "crawled_at", "domain", "heading_path", "chunk_index", "token_count", "chunking_config"}},
+                        "source": chunk.metadata.get("source") or source,
+                        "index_scope": source,
                         "indexer": "bindal_semantic_search",
                         "generation": generation,
                         "document_name": chunk.document_name,
@@ -99,9 +100,11 @@ def store_chunks(
         collection_name=collection,
         points_selector=models.FilterSelector(filter=models.Filter(
             must=[
-                models.FieldCondition(key="source", match=models.MatchValue(value=source)),
                 models.FieldCondition(key="indexer", match=models.MatchValue(value="bindal_semantic_search")),
             ],
+            # Include the legacy scope field so old page revisions are replaced too.
+            should=[models.FieldCondition(key=key, match=models.MatchValue(value=source))
+                    for key in ("index_scope", "source")],
             must_not=[models.FieldCondition(
                 key="generation", match=models.MatchValue(value=generation)
             )],

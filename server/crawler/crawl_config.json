@@ -1,0 +1,33 @@
+{
+  "allowed_domains": ["developer.mozilla.org", "www.geeksforgeeks.org"],
+  "sources": {"developer.mozilla.org": "mdn", "www.geeksforgeeks.org": "gfg"},
+  "seeds": [
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+    "https://www.geeksforgeeks.org/mongodb/mongodb-replication-and-sharding/"
+  ],
+  "target_documents": 5000,
+  "max_documents_per_domain": 2500,
+  "batch_documents": 50,
+  "max_attempts_total": 20000,
+  "max_attempts_per_domain": 10000,
+  "max_requests": 50000,
+  "max_vectors_estimate": 150000,
+  "estimated_chunks_per_document": 25,
+  "quality": {
+    "enabled": true,
+    "min_characters": 300,
+    "min_words": 60,
+    "min_unique_words": 25,
+    "min_unique_ratio": 0.08,
+    "max_boilerplate_ratio": 0.65,
+    "max_navigation_ratio": 0.65,
+    "max_repeated_line_ratio": 0.60
+  },
+  "max_depth": 3,
+  "request_delay": 2.0,
+  "respect_robots_txt": true,
+  "max_sitemaps_per_domain": 30,
+  "max_frontier_per_domain": 60000,
+  "discovery_pages_per_domain": 2,
+  "index_batch_size": 25
+}

@@ -1,0 +1,373 @@
+{
+  "pages_verified_by_domain": {
+    "developer.mozilla.org": 37,
+    "www.geeksforgeeks.org": 38
+  },
+  "chunks_verified_by_domain": {
+    "developer.mozilla.org": 765,
+    "www.geeksforgeeks.org": 619
+  },
+  "total_new_chunks_verified": 1384,
+  "collection_total_vectors": 2598,
+  "api_corpus_documents": 135,
+  "vector_dimensions": 384,
+  "checks": [
+    "saved content hashes",
+    "structural blocks",
+    "BM25 membership",
+    "Qdrant chunk completeness and uniqueness",
+    "metadata equality",
+    "vector dimensions",
+    "real hybrid/RRF/cross-encoder API queries"
+  ],
+  "queries": [
+    {
+      "query": "What are the new JavaScript Set methods?",
+      "expected_url": "https://developer.mozilla.org/en-US/blog/javascript-set-methods/",
+      "expected_rank": 1,
+      "results": [
+        {
+          "title": "New JavaScript Set methods",
+          "url": "https://developer.mozilla.org/en-US/blog/javascript-set-methods/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.03278688524590164,
+          "reranker_score": 6.19256067276001
+        },
+        {
+          "title": "MDN 2024 content projects",
+          "url": "https://developer.mozilla.org/en-US/blog/mdn-2024-content-projects/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.02832415420928403,
+          "reranker_score": 3.1883671283721924
+        },
+        {
+          "title": "Developer essentials: JavaScript console methods",
+          "url": "https://developer.mozilla.org/en-US/blog/learn-javascript-console-methods/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.03128054740957967,
+          "reranker_score": 1.1131494045257568
+        },
+        {
+          "title": "JavaScript | MDN",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.03149801587301587,
+          "reranker_score": -0.5969836711883545
+        },
+        {
+          "title": "How to draw any regular shape with just one JavaScript function",
+          "url": "https://developer.mozilla.org/en-US/blog/javascript-shape-drawing-function/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.028991596638655463,
+          "reranker_score": -2.425309896469116
+        },
+        {
+          "title": "Countdown to the holidays with daily coding challenges",
+          "url": "https://developer.mozilla.org/en-US/blog/daily-holiday-javascript-challenges/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.021718094828513064,
+          "reranker_score": -3.218836545944214
+        },
+        {
+          "title": "Under the hood of MDN's new frontend",
+          "url": "https://developer.mozilla.org/en-US/blog/mdn-front-end-deep-dive/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.028985507246376812,
+          "reranker_score": -4.456952095031738
+        },
+        {
+          "title": "Efficiently design Insert, Delete and Median queries on a set - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/efficiently-design-insert-delete-median-queries-set/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.02701252236135957,
+          "reranker_score": -4.649399757385254
+        },
+        {
+          "title": "JavaScript Temporal is coming",
+          "url": "https://developer.mozilla.org/en-US/blog/javascript-temporal-is-coming/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.03149801587301587,
+          "reranker_score": -5.349043846130371
+        },
+        {
+          "title": "Locale-sensitive text segmentation in JavaScript with Intl.Segmenter",
+          "url": "https://developer.mozilla.org/en-US/blog/javascript-intl-segmenter-i18n/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.02871794871794872,
+          "reranker_score": -5.812912940979004
+        }
+      ]
+    },
+    {
+      "query": "Locale-sensitive text segmentation with JavaScript Intl.Segmenter",
+      "expected_url": "https://developer.mozilla.org/en-US/blog/javascript-intl-segmenter-i18n/",
+      "expected_rank": 1,
+      "results": [
+        {
+          "title": "Locale-sensitive text segmentation in JavaScript with Intl.Segmenter",
+          "url": "https://developer.mozilla.org/en-US/blog/javascript-intl-segmenter-i18n/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.03278688524590164,
+          "reranker_score": 9.52625846862793
+        },
+        {
+          "title": "MDN 2024 content projects",
+          "url": "https://developer.mozilla.org/en-US/blog/mdn-2024-content-projects/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.028474711270410194,
+          "reranker_score": 6.442060470581055
+        },
+        {
+          "title": "JavaScript Temporal is coming",
+          "url": "https://developer.mozilla.org/en-US/blog/javascript-temporal-is-coming/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.030158730158730156,
+          "reranker_score": -1.13438081741333
+        },
+        {
+          "title": "Efficiently design Insert, Delete and Median queries on a set - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/efficiently-design-insert-delete-median-queries-set/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.022670312143996355,
+          "reranker_score": -5.909533977508545
+        },
+        {
+          "title": "OpenCV: Segmentation using Thresholding - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/python/opencv-segmentation-using-thresholding/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.029083245521601686,
+          "reranker_score": -6.100388526916504
+        },
+        {
+          "title": "JavaScript | MDN",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.027046783625730993,
+          "reranker_score": -6.998658180236816
+        },
+        {
+          "title": "Developer essentials: JavaScript console methods",
+          "url": "https://developer.mozilla.org/en-US/blog/learn-javascript-console-methods/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.027820121951219513,
+          "reranker_score": -8.464553833007812
+        },
+        {
+          "title": "Exploring the Broadcast Channel API for cross-tab communication",
+          "url": "https://developer.mozilla.org/en-US/blog/exploring-the-broadcast-channel-api-for-cross-tab-communication/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.023822791864028976,
+          "reranker_score": -9.318344116210938
+        },
+        {
+          "title": "A year of publishing the MDN Blog",
+          "url": "https://developer.mozilla.org/en-US/blog/mdn-blog-one-year-on/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.025873015873015874,
+          "reranker_score": -9.83621597290039
+        },
+        {
+          "title": "Monitoring and optimizing website performance",
+          "url": "https://developer.mozilla.org/en-US/blog/optimize-web-performance/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.02548701298701299,
+          "reranker_score": -10.16812515258789
+        }
+      ]
+    },
+    {
+      "query": "Remove extra spaces from a string",
+      "expected_url": "https://www.geeksforgeeks.org/dsa/remove-extra-spaces-string/",
+      "expected_rank": 1,
+      "results": [
+        {
+          "title": "Remove extra spaces from a string - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/remove-extra-spaces-string/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.03278688524590164,
+          "reranker_score": 9.453981399536133
+        },
+        {
+          "title": "Locale-sensitive text segmentation in JavaScript with Intl.Segmenter",
+          "url": "https://developer.mozilla.org/en-US/blog/javascript-intl-segmenter-i18n/",
+          "source": "mdn",
+          "domain": "developer.mozilla.org",
+          "rrf_score": 0.03200204813108039,
+          "reranker_score": -2.3481192588806152
+        },
+        {
+          "title": "Delete middle of linked list - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/delete-middle-of-linked-list/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.025978407557354925,
+          "reranker_score": -6.2917070388793945
+        },
+        {
+          "title": "All combinations of strings that can be used to dial a number - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/combinations-strings-can-used-dial-given-phone-number/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.029877369007803793,
+          "reranker_score": -7.655428409576416
+        },
+        {
+          "title": "Print all ways to break a string in bracket form - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/print-ways-break-string-bracket-form/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.026860955056179775,
+          "reranker_score": -8.292318344116211
+        },
+        {
+          "title": "Smallest number with given digit count and sum - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/find-smallest-number-with-given-number-of-digits-and-digit-sum/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.023822791864028976,
+          "reranker_score": -8.332168579101562
+        },
+        {
+          "title": "Largest with given number of digits and sum - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/find-the-largest-number-with-given-number-of-digits-and-sum-of-digits/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.023684210526315787,
+          "reranker_score": -8.824295043945312
+        },
+        {
+          "title": "Java Convert int to String - Different Ways of Conversion - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/java/different-ways-for-integer-to-string-conversions-in-java/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.026262626262626265,
+          "reranker_score": -9.0079984664917
+        },
+        {
+          "title": "Roman to Integer Conversion - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/roman-number-to-integer/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.02482636323333826,
+          "reranker_score": -9.08525562286377
+        },
+        {
+          "title": "Maximum number possible by doing at-most K swaps - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/find-maximum-number-possible-by-doing-at-most-k-swaps/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.024527186761229315,
+          "reranker_score": -10.207296371459961
+        }
+      ]
+    },
+    {
+      "query": "Transpose a matrix in a single line in Python",
+      "expected_url": "https://www.geeksforgeeks.org/python/transpose-matrix-single-line-python/",
+      "expected_rank": 1,
+      "results": [
+        {
+          "title": "Transpose a matrix in Single line in Python - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/python/transpose-matrix-single-line-python/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.03278688524590164,
+          "reranker_score": 10.404218673706055
+        },
+        {
+          "title": "A matrix probability question - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/a-matrix-probability-question/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.029418126757516764,
+          "reranker_score": -3.1253762245178223
+        },
+        {
+          "title": "Ternary Operator in Python - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/python/ternary-operator-in-python/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.0304147465437788,
+          "reranker_score": -4.314650058746338
+        },
+        {
+          "title": "Sorting 2D Vector in C++ - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/cpp/sorting-2d-vector-in-c-set-1-by-row-and-column/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.03200204813108039,
+          "reranker_score": -4.356197357177734
+        },
+        {
+          "title": "Sorting 2D Vector in C++ | Set 2 (In descending order by row and column) - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/cpp/sorting-2d-vector-in-c-set-2-in-descending-order-by-row-and-column/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.03057889822595705,
+          "reranker_score": -6.46470308303833
+        },
+        {
+          "title": "Printing Longest Common Subsequence | Set 2 (Printing All) - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/printing-longest-common-subsequence-set-2-printing/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.02782608695652174,
+          "reranker_score": -6.691684722900391
+        },
+        {
+          "title": "Sorting 2D Vector in C++ | Set 3 (By number of columns) - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/cpp/sorting-2d-vector-c-set-3-number-columns/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.029709507042253523,
+          "reranker_score": -6.9947309494018555
+        },
+        {
+          "title": "Find maximum length Snake sequence - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/find-maximum-length-snake-sequence/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.02381289865343728,
+          "reranker_score": -9.216588973999023
+        },
+        {
+          "title": "Cartooning an Image using OpenCV - Python - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/blogs/cartooning-an-image-using-opencv-python/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.023467173087357567,
+          "reranker_score": -9.459379196166992
+        },
+        {
+          "title": "Traveling Salesman Problem using Branch And Bound - GeeksforGeeks",
+          "url": "https://www.geeksforgeeks.org/dsa/traveling-salesman-problem-using-branch-and-bound-2/",
+          "source": "gfg",
+          "domain": "www.geeksforgeeks.org",
+          "rrf_score": 0.027730294396961064,
+          "reranker_score": -10.059226989746094
+        }
+      ]
+    }
+  ]
+}
