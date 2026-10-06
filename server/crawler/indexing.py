@@ -11,7 +11,7 @@ from qdrant_client import QdrantClient
 from server.chunking import DEFAULT_CHUNK_WORDS, DEFAULT_CHUNK_OVERLAP_WORDS, chunk_document
 from server.search_engine.BM25 import build_bm25_index
 from server.semantic_search.embeddings import embed_chunks
-from server.semantic_search.vector_store import DEFAULT_COLLECTION, store_chunks
+from server.semantic_search.vector_store import DEFAULT_COLLECTION, store_chunk_groups
 from .chunking import CrawledDocumentChunk
 from .dedup import content_hash, write_json_atomic
 from .fetch import validate_url
@@ -97,10 +97,15 @@ def index_crawled_chunks(
         raise ValueError("Document identifiers must be unique across URLs")
     # Use the existing BM25 implementation; recompute corpus-wide statistics on updates.
     bm25 = build_bm25_index({d["document_name"]: d["text"] for d in documents.values()})
+    # Encode across pages so the existing model can fill its internal minibatches.
+    embedded = embed_chunks([chunk for page in ordered_chunks.values() for chunk in page], model=model)
+    groups = {}
+    offset = 0
     for url, page in ordered_chunks.items():
-        embedded = embed_chunks(page, model=model)
-        store_chunks(client, collection, embedded, source=f"crawler:{url}",
-                     chunk_words=chunk_words, overlap_words=overlap_words)
+        groups[f"crawler:{url}"] = embedded[offset:offset + len(page)]
+        offset += len(page)
+    store_chunk_groups(client, collection, groups,
+                       chunk_words=chunk_words, overlap_words=overlap_words)
     from server.search_engine.tokenizer import TOKENIZATION_VERSION
     result = {"documents": documents, "bm25_index": bm25, "tokenization_version": TOKENIZATION_VERSION}
     write_json_atomic(index_file, result)

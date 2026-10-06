@@ -132,6 +132,15 @@ retry saved failed batches to finish synchronization. Shared BM25 corpus rebuild
 and manifest rewrites remain a scaling cost; `index_batch_size` controls how often
 that cost occurs. Restart the backend after indexing to reload its corpus.
 
+Indexing now encodes chunks across the whole document batch and uses the shared
+`store_chunk_groups` uploader. Collection checks happen once per batch; vectors
+from multiple pages share upload requests, followed by one scoped cleanup after
+all uploads succeed. Stable point IDs, source metadata and per-page replacement
+semantics are retained. Website delays and robots checks are unchanged.
+`store_chunks` remains the compatible single-source entry point. Use
+`python -m evaluation.benchmark_bulk_indexing` for a same-data live benchmark
+that refreshes 25 existing pages without adding documents.
+
 New growth components: `quality.py`, `budget.py`, and `index_adapter.py`. The
 adapter adds receipts/statistics around the existing indexer; it does not replace
 any retrieval or indexing algorithm. Unit tests use mocked HTTP and models.

@@ -1,6 +1,6 @@
 """Qdrant persistence for MiniLM document chunks."""
 import os
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from pathlib import Path
 from uuid import NAMESPACE_URL, uuid4, uuid5
 
@@ -52,24 +52,32 @@ def ensure_collection(client: QdrantClient, collection: str) -> None:
             )
 
 
-def store_chunks(
+def store_chunk_groups(
     client: QdrantClient,
     collection: str,
-    chunks: Sequence[EmbeddedChunk],
+    groups: Mapping[str, Sequence[EmbeddedChunk]],
     *,
-    source: str,
     chunk_words: int | None = None,
     overlap_words: int | None = None,
     batch_size: int = 100,
 ) -> int:
-    """Upsert chunks with stable IDs, awaiting each batch before returning."""
+    """Upload multiple source scopes together; clean only those scopes after success.
+
+    IDs and payloads match single-source storage. An empty mapping is a no-op;
+    an explicitly empty source removes that source's old points. One writer only.
+    """
     if batch_size <= 0:
         raise ValueError("batch_size must be positive")
-    if any(len(chunk.embedding) != EMBEDDING_DIMENSIONS for chunk in chunks):
+    if not groups:
+        return 0
+    if any(not isinstance(source, str) or not source for source in groups):
+        raise ValueError("Source scopes must be non-empty strings")
+    scoped = [(source, chunk) for source, chunks in groups.items() for chunk in chunks]
+    if any(len(chunk.embedding) != EMBEDDING_DIMENSIONS for _, chunk in scoped):
         raise ValueError("Expected 384-dimensional embeddings")
     ensure_collection(client, collection)
     generation = str(uuid4())
-    for offset in range(0, len(chunks), batch_size):
+    for offset in range(0, len(scoped), batch_size):
         client.upsert(
             collection_name=collection,
             wait=True,
@@ -92,7 +100,7 @@ def store_chunks(
                         "overlap_words": overlap_words,
                     },
                 )
-                for chunk in chunks[offset : offset + batch_size]
+                for source, chunk in scoped[offset : offset + batch_size]
             ],
         )
     # Only remove this indexer's stale chunks after every upload has succeeded.
@@ -103,7 +111,7 @@ def store_chunks(
                 models.FieldCondition(key="indexer", match=models.MatchValue(value="bindal_semantic_search")),
             ],
             # Include the legacy scope field so old page revisions are replaced too.
-            should=[models.FieldCondition(key=key, match=models.MatchValue(value=source))
+            should=[models.FieldCondition(key=key, match=models.MatchAny(any=list(groups)))
                     for key in ("index_scope", "source")],
             must_not=[models.FieldCondition(
                 key="generation", match=models.MatchValue(value=generation)
@@ -111,4 +119,14 @@ def store_chunks(
         )),
         wait=True,
     )
-    return len(chunks)
+    return len(scoped)
+
+
+def store_chunks(
+    client: QdrantClient, collection: str, chunks: Sequence[EmbeddedChunk], *,
+    source: str, chunk_words: int | None = None, overlap_words: int | None = None,
+    batch_size: int = 100,
+) -> int:
+    """Compatibility wrapper over the shared multi-source uploader."""
+    return store_chunk_groups(client, collection, {source: chunks},
+        chunk_words=chunk_words, overlap_words=overlap_words, batch_size=batch_size)

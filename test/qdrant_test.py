@@ -7,6 +7,59 @@ from server.semantic_search.vector_store import ensure_collection, store_chunks
 from server.semantic_search import vector_store, build_embeddings
 
 
+def test_multi_source_batches_reduce_calls_and_isolate_replacements(monkeypatch):
+    with closing(QdrantClient(":memory:")) as client:
+        store_chunks(client, "chunks", [chunk("untouched")], source="other")
+        store_chunks(client, "chunks", [chunk("a", 0), chunk("a", 1)], source="a")
+        calls = []
+        original = client.upsert
+        def upload(**kwargs):
+            calls.append(len(kwargs["points"]))
+            return original(**kwargs)
+        monkeypatch.setattr(client, "upsert", upload)
+        groups = {"a": [chunk("a", 0)], "b": [chunk("b", 0), chunk("b", 1)]}
+        assert vector_store.store_chunk_groups(client, "chunks", groups, batch_size=2) == 3
+        assert calls == [2, 1]
+        points = client.scroll("chunks", limit=100)[0]
+        assert {p.payload["chunk_id"] for p in points} == {"a::chunk-0", "b::chunk-0", "b::chunk-1", "untouched::chunk-0"}
+        ids = {p.id for p in points}
+        vector_store.store_chunk_groups(client, "chunks", groups)
+        assert {p.id for p in client.scroll("chunks", limit=100)[0]} == ids
+        vector_store.store_chunk_groups(client, "chunks", {"a": []})
+        assert {p.payload["index_scope"] for p in client.scroll("chunks")[0]} == {"b", "other"}
+
+
+def test_multi_source_partial_failure_preserves_old_generations_and_retry_recovers(monkeypatch):
+    with closing(QdrantClient(":memory:")) as client:
+        vector_store.store_chunk_groups(client, "chunks", {"a": [chunk("old-a")], "b": [chunk("old-b")]})
+        upload = client.upsert
+        calls = []
+        def fail_second(**kwargs):
+            calls.append(kwargs)
+            if len(calls) == 2:
+                raise RuntimeError("disconnect")
+            return upload(**kwargs)
+        groups = {"a": [chunk("new-a")], "b": [chunk("new-b")]}
+        with monkeypatch.context() as patch:
+            patch.setattr(client, "upsert", fail_second)
+            with pytest.raises(RuntimeError):
+                vector_store.store_chunk_groups(client, "chunks", groups, batch_size=1)
+        assert {p.payload["document_name"] for p in client.scroll("chunks")[0]} == {"old-a", "old-b", "new-a"}
+        vector_store.store_chunk_groups(client, "chunks", groups)
+        assert {p.payload["document_name"] for p in client.scroll("chunks")[0]} == {"new-a", "new-b"}
+
+
+def test_multi_source_validates_entire_batch_before_writing():
+    from unittest.mock import Mock
+    client = Mock()
+    invalid = EmbeddedChunk("bad", "bad", "text", [1.0])
+    with pytest.raises(ValueError):
+        vector_store.store_chunk_groups(client, "chunks", {"a": [chunk("ok")], "b": [invalid]})
+    assert not client.mock_calls
+    assert vector_store.store_chunk_groups(client, "chunks", {}) == 0
+    assert not client.mock_calls
+
+
 def chunk(name, number=0):
     return EmbeddedChunk(name, f"{name}::chunk-{number}", "Original text", [0.1] * 384)
 

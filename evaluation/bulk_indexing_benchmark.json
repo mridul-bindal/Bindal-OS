@@ -1,0 +1,22 @@
+{
+  "documents": 25,
+  "chunks": 472,
+  "points_before": 9686,
+  "points_after": 9686,
+  "serial_seconds": 46.31200140000146,
+  "bulk_seconds": 30.16669389999879,
+  "speedup": 1.5352030803747878,
+  "serial_calls": {
+    "collection_exists": 25,
+    "get_collection": 25,
+    "upsert": 25,
+    "delete": 25
+  },
+  "bulk_calls": {
+    "collection_exists": 1,
+    "get_collection": 1,
+    "upsert": 5,
+    "delete": 1
+  },
+  "scope": "Same saved documents, warm MiniLM; embedding and Qdrant operations only. No crawling or BM25 rebuild."
+}

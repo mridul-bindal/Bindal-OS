@@ -1,0 +1,34 @@
+{
+  "corpus": {
+    "target_documents": 5000,
+    "successfully_indexed": 621,
+    "documents_by_domain": {
+      "developer.mozilla.org": 308,
+      "www.geeksforgeeks.org": 313
+    },
+    "chunks": 9543,
+    "average_chunks_per_document": 15.367149758454106,
+    "legacy_documents_excluded_from_target": 4
+  },
+  "qdrant_points": 9686,
+  "prior_totals": {
+    "discovered_urls": 88936,
+    "eligible_urls": 88905,
+    "fetched_urls": 504,
+    "extracted_pages": 504,
+    "successful_pages": 621,
+    "rejected_pages": 3,
+    "soft_404_pages": 1,
+    "robots_blocked_urls": 1,
+    "failed_urls": 0,
+    "successfully_indexed_documents": 621,
+    "chunks": 9543,
+    "page_attempts": 504,
+    "crawl_seconds": 528.3987710018409,
+    "index_seconds": 1326.486468099989,
+    "duplicate_urls": 140190,
+    "duplicate_content": 1,
+    "failed_requests": 0,
+    "quality_filtered_pages": 3
+  }
+}
