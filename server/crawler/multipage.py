@@ -8,6 +8,7 @@ from dataclasses import asdict
 import json
 import time
 from pathlib import Path
+from server.paths import CRAWLER_RUNS_DIR
 
 import httpx
 
@@ -373,7 +374,7 @@ def main():
         if getattr(args, key) is not None:
             values[key] = getattr(args, key)
     config = CrawlConfig(**values)
-    run_dir = args.run_dir or Path("crawler_runs") / ("quality-dry" if args.dry_run else "quality-live")
+    run_dir = args.run_dir or CRAWLER_RUNS_DIR / ("quality-dry" if args.dry_run else "quality-live")
     from .index_adapter import CrawlIndexer
     indexer = CrawlIndexer(config)
     crawler = MultiPageCrawler(config, run_dir=run_dir, output_dir=args.output_dir,

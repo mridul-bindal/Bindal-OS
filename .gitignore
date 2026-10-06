@@ -10,6 +10,7 @@ __pycache__/
 *$py.class
 
 # Test, type-checker, and linter caches
+.cache/
 .pytest_cache/
 .pytest_tmp/
 .pytest_cache_local/
@@ -57,6 +58,8 @@ Thumbs.db
 
 # Generated search indexes
 data/*_index.json
+data/indexes/
+data/crawler/
 
 # Generated crawler documents
 crawler_output/

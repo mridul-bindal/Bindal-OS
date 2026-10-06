@@ -1,5 +1,6 @@
 from collections.abc import Callable
 from pathlib import Path
+from server.paths import LOCAL_INDEX_DIR
 
 from server import load_files
 from server.search_engine import (
@@ -60,19 +61,20 @@ def run(data_path: Path | None = None) -> None:
     if data_path is None:
         data_path = Path(__file__).resolve().parent.parent / "data"
 
+    index_path = LOCAL_INDEX_DIR
     file_data = load_files(str(data_path))
     inverted_index = build_inverted_index(file_data)
-    save_index(inverted_index, data_path / "inverted_index.json", overwrite=True)
+    save_index(inverted_index, index_path / "inverted_index.json", overwrite=True)
     ranked_inverted_index = build_ranked_inverted_index(file_data)
     save_index(
         ranked_inverted_index,
-        data_path / "ranked_inverted_index.json",
+        index_path / "ranked_inverted_index.json",
         overwrite=True,
     )
     tfidf_index = build_tfidf_index(file_data)
-    save_index(tfidf_index, data_path / "tfidf_index.json", overwrite=True)
+    save_index(tfidf_index, index_path / "tfidf_index.json", overwrite=True)
     bm25_index = build_bm25_index(file_data)
-    save_index(bm25_index, data_path / "bm25_index.json", overwrite=True)
+    save_index(bm25_index, index_path / "bm25_index.json", overwrite=True)
     search_methods: dict[str, Callable[[str], list[object]]] = {
         "Basic search": lambda query: basic_search(query, file_data),
         "Inverted index": lambda query: search_with_inverted_index(

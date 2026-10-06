@@ -6,7 +6,7 @@ execution. Existing quality checks, robots rules, two-second per-domain delay,
 balanced scheduling and configured safety budgets remained enabled.
 
 ```powershell
-uv run python -m server.crawler.multipage --run-dir crawler_runs/growth-500 --batch-documents 500 --max-sitemaps-per-domain 30
+uv run python -m server.crawler.multipage --run-dir data/crawler/runs/growth-500 --batch-documents 500 --max-sitemaps-per-domain 30
 ```
 
 No additional crawl or recovery invocation was needed. No retrieval algorithms
@@ -94,11 +94,11 @@ Artifacts:
 - [Full API verification results](growth_500_validation.json)
 - [Starting corpus snapshot](growth_500_before.json)
 - [Validation queries](growth_500_queries.json)
-- Runtime frontier and full batch report: `crawler_runs/growth-500/` (Git-ignored).
+- Runtime frontier and full batch report: `data/crawler/runs/growth-500/` (Git-ignored).
 
 Reusing the crawl command will add another batch; it should not be run merely to
 view this report. Read-only verification is available with:
 
 ```powershell
-uv run python -m evaluation.validate_crawler --run-dir crawler_runs/growth-500 --query-set evaluation/growth_500_queries.json --output evaluation/growth_500_validation.json
+uv run python -m evaluation.validate_crawler --run-dir data/crawler/runs/growth-500 --query-set evaluation/growth_500_queries.json --output evaluation/growth_500_validation.json
 ```

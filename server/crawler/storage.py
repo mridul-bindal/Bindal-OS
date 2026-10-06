@@ -5,7 +5,9 @@ from pathlib import Path
 from .fetch import validate_url
 from .dedup import ContentHashRecord, content_hash, write_json_atomic
 
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[2] / "crawler_output"
+from server.paths import CRAWLER_DOCUMENTS_DIR
+
+DEFAULT_OUTPUT_DIR = CRAWLER_DOCUMENTS_DIR
 
 
 def url_filename(url: str) -> str:

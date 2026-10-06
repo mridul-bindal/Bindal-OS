@@ -7,6 +7,7 @@ import argparse
 from collections import Counter
 import json
 from pathlib import Path
+from server.paths import CRAWLER_RUNS_DIR
 import sqlite3
 
 from fastapi.testclient import TestClient
@@ -18,7 +19,7 @@ from server.crawler.indexing import DEFAULT_INDEX_FILE
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--run-dir", type=Path, default=Path("crawler_runs/validation-live"))
+    parser.add_argument("--run-dir", type=Path, default=CRAWLER_RUNS_DIR / "validation-live")
     parser.add_argument("--output", type=Path, default=Path("evaluation/crawler_validation.json"))
     parser.add_argument("--query-set", type=Path, help="JSON array of [query, source, expected_url]")
     args = parser.parse_args()

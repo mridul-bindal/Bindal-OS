@@ -16,7 +16,9 @@ from .chunking import CrawledDocumentChunk
 from .dedup import content_hash, write_json_atomic
 from .fetch import validate_url
 
-DEFAULT_INDEX_FILE = Path(__file__).resolve().parents[2] / "crawler_index" / "index.json"
+from server.paths import CRAWLER_INDEX_FILE
+
+DEFAULT_INDEX_FILE = CRAWLER_INDEX_FILE
 
 
 def index_crawled_chunks(

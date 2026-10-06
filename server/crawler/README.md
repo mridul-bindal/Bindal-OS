@@ -11,8 +11,8 @@ with at most **2,500 per domain**, but each invocation adds at most **50 new
 successful documents**. Nothing starts a 5,000-document crawl automatically.
 
 ```powershell
-uv run python -m server.crawler.multipage --dry-run --run-dir crawler_runs/quality-discovery --max-sitemaps-per-domain 8
-uv run python -m server.crawler.multipage --run-dir crawler_runs/quality-live --batch-documents 50
+uv run python -m server.crawler.multipage --dry-run --run-dir data/crawler/runs/quality-discovery --max-sitemaps-per-domain 8
+uv run python -m server.crawler.multipage --run-dir data/crawler/runs/quality-live --batch-documents 50
 ```
 
 Repeat the live command to add the next batch. Use the same run directory, output
@@ -28,9 +28,9 @@ requests. A previously failed HTTP fetch may still need another request.
 Change scale without editing source code, for example:
 
 ```powershell
-uv run python -m server.crawler.multipage --run-dir crawler_runs/quality-live --target-documents 500 --max-documents-per-domain 250 --batch-documents 50
-uv run python -m server.crawler.multipage --run-dir crawler_runs/quality-live --target-documents 2000 --max-documents-per-domain 1000 --batch-documents 500
-uv run python -m server.crawler.multipage --run-dir crawler_runs/quality-live --target-documents 5000 --max-documents-per-domain 2500 --batch-documents 500
+uv run python -m server.crawler.multipage --run-dir data/crawler/runs/quality-live --target-documents 500 --max-documents-per-domain 250 --batch-documents 50
+uv run python -m server.crawler.multipage --run-dir data/crawler/runs/quality-live --target-documents 2000 --max-documents-per-domain 1000 --batch-documents 500
+uv run python -m server.crawler.multipage --run-dir data/crawler/runs/quality-live --target-documents 5000 --max-documents-per-domain 2500 --batch-documents 500
 ```
 
 These are manual examples, not scheduled jobs. After reviewing statistics, a
@@ -123,8 +123,8 @@ and `chunks_created` describe successfully committed indexing batches. They may
 differ during failures or idempotent recovery. Request and indexing failures are
 reported separately. Each recovery invocation has its own batch report.
 
-Runtime data is Git-ignored. Documents remain in `crawler_output/` and the shared
-BM25/metadata manifest in `crawler_index/index.json`. Source/domain, URL, title,
+Runtime data is Git-ignored. Documents remain in `data/crawler/documents/` and the shared
+BM25/metadata manifest in `data/crawler/index/index.json`. Source/domain, URL, title,
 crawl timestamp, hash and chunk metadata survive the existing indexing/search
 pipeline. Qdrant's separate `index_scope` preserves per-document replacement.
 Use one writer. Local JSON/SQLite and Qdrant are not a distributed transaction;
@@ -159,7 +159,7 @@ print(document["title"], document["text"])
 
 `crawl_url` returns a dictionary with `url`, `title`, `text`, `content_hash`,
 `crawled_at`, `blocks`, and `is_duplicate`.
-By default it also saves UTF-8 JSON under the project's `crawler_output/`
+By default it also saves UTF-8 JSON under the project's `data/crawler/documents/`
 directory, which is ignored by Git. Pass `output_dir=None` for extraction without
 saving, or a `Path` to select another output directory. The timestamp is UTC in
 ISO 8601 format. A missing HTML title falls back to the main content's H1, then
@@ -236,7 +236,7 @@ silently discarded.
 from pathlib import Path
 from server.crawler import ContentHashRecord, content_hash, crawl_url
 
-record = ContentHashRecord(Path("crawler_output"))
+record = ContentHashRecord(Path("data/crawler/documents"))
 already_seen = record.has_seen("Some extracted text")
 digest = content_hash("Some extracted text")
 document = crawl_url("https://example.com/page")
@@ -360,7 +360,7 @@ within that URL's scope. Replacing a revision or changing its chunk count remove
 stale points without touching other webpages or the local-document pipeline.
 Omitted URLs are retained; an empty batch is a no-op, not a deletion request.
 
-`crawler_index/index.json` (Git-ignored) stores the crawler corpus, chunk metadata,
+`data/crawler/index/index.json` (Git-ignored) stores the crawler corpus, chunk metadata,
 and the BM25 index. `index_file=` can choose another location. Updates replace
 that URL's previous document identifier and rebuild BM25 over all known crawler
 pages, so obsolete terms and corpus statistics are refreshed. The local-document

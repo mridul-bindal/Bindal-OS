@@ -57,7 +57,7 @@ bypassed.
 Reproduction:
 
 ```powershell
-.venv/Scripts/python.exe -m server.crawler.multipage --dry-run --run-dir crawler_runs/validation-dry-expanded --max-sitemaps-per-domain 8 --discovery-pages-per-domain 1
+.venv/Scripts/python.exe -m server.crawler.multipage --dry-run --run-dir data/crawler/runs/validation-dry-expanded --max-sitemaps-per-domain 8 --discovery-pages-per-domain 1
 ```
 
 The initial sandboxed network attempt was blocked by local socket permissions;
@@ -67,7 +67,7 @@ frontier was kept separate from successful runs.
 ## Small live crawl and indexing
 
 ```powershell
-.venv/Scripts/python.exe -m server.crawler.multipage --run-dir crawler_runs/validation-live --max-pages-total 50 --max-pages-per-domain 25 --max-sitemaps-per-domain 4
+.venv/Scripts/python.exe -m server.crawler.multipage --run-dir data/crawler/runs/validation-live --max-pages-total 50 --max-pages-per-domain 25 --max-sitemaps-per-domain 4
 ```
 
 | Domain | Page attempts | New documents indexed | New chunks |
@@ -135,7 +135,7 @@ searches without fetching or indexing new webpages.
 | New crawler modules/config | `server/crawler/config.py`, `crawl_config.json`, `urls.py`, `frontier.py`, `policy.py`, `discovery.py`, `multipage.py` |
 | Existing crawler integration | `server/crawler/crawl.py`, `storage.py`, `dedup.py`, `chunking.py`, `indexing.py`, `README.md` |
 | Metadata in indexing/retrieval/API | `server/semantic_search/embeddings.py`, `vector_store.py`, `search.py`, `server/hybrid_search/service.py`, `server/api.py` |
-| Tests | `test/multipage_crawler_test.py`, `test/semantic_search_test.py`, `test/hybrid_api_test.py` |
+| Tests | `tests/multipage_crawler_test.py`, `tests/semantic_search_test.py`, `tests/hybrid_api_test.py` |
 | Manual validation/results | `evaluation/validate_crawler.py`, `crawler_validation.json`, `crawler_report.md`, `crawler_discovery.json`, `crawler_live.json` |
 | Dependencies/output exclusions | `pyproject.toml`, `uv.lock`, `.gitignore` |
 

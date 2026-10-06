@@ -97,9 +97,9 @@ No points remain unaccounted for by the initial collection plus verified new chu
 Reproduction commands (reusing the same frontier resumes it):
 
 ```powershell
-uv run python -m server.crawler.multipage --dry-run --run-dir crawler_runs/growth-dry --max-sitemaps-per-domain 4 --discovery-pages-per-domain 1
-uv run python -m server.crawler.multipage --run-dir crawler_runs/growth-live --batch-documents 50 --max-sitemaps-per-domain 4 --max-attempts-total 300 --max-attempts-per-domain 200 --max-requests 600
-uv run python -m server.crawler.multipage --run-dir crawler_runs/growth-live --retry-only --batch-documents 25 --max-attempts-total 300 --max-attempts-per-domain 200 --max-requests 600
+uv run python -m server.crawler.multipage --dry-run --run-dir data/crawler/runs/growth-dry --max-sitemaps-per-domain 4 --discovery-pages-per-domain 1
+uv run python -m server.crawler.multipage --run-dir data/crawler/runs/growth-live --batch-documents 50 --max-sitemaps-per-domain 4 --max-attempts-total 300 --max-attempts-per-domain 200 --max-requests 600
+uv run python -m server.crawler.multipage --run-dir data/crawler/runs/growth-live --retry-only --batch-documents 25 --max-attempts-total 300 --max-attempts-per-domain 200 --max-requests 600
 ```
 
 The normal live command above would add another batch if run again. It was not
@@ -138,7 +138,7 @@ All returned HTTP 200 with source/domain metadata. Full result scores are in
 workflow checks, not a new relevance benchmark.
 
 ```powershell
-uv run python -m evaluation.validate_crawler --run-dir crawler_runs/growth-live --query-set evaluation/crawler_growth_queries.json --output evaluation/crawler_growth_validation.json
+uv run python -m evaluation.validate_crawler --run-dir data/crawler/runs/growth-live --query-set evaluation/crawler_growth_queries.json --output evaluation/crawler_growth_validation.json
 ```
 
 ## Budget and operating notes
@@ -167,7 +167,7 @@ see the [crawler instructions](../server/crawler/README.md).
 - New: `server/crawler/quality.py`, `budget.py`, `index_adapter.py`.
 - Updated orchestration/config: `server/crawler/multipage.py`, `config.py`,
   `crawl_config.json`, `frontier.py`, `policy.py`, `discovery.py`, `crawl.py`, `README.md`.
-- Tests: `test/crawler_growth_test.py`; legacy multipage test fixtures explicitly
+- Tests: `tests/crawler_growth_test.py`; legacy multipage test fixtures explicitly
   disable quality checks to retain their original queue/indexing test scope.
 - Validation: `evaluation/validate_crawler.py`, `crawler_growth_queries.json`,
   `crawler_growth_validation.json`, `crawler_growth_statistics.json`, this report.

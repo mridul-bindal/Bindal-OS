@@ -1,5 +1,8 @@
 # Bindal-OS Search Engine Notes
 
+Historical implementation notes. For the current app and folder layout, see
+[the project README](../README.md).
+
 ## Project Purpose
 
 Bindal-OS is a small document search engine built to demonstrate how search
@@ -48,41 +51,8 @@ configuration. The development dependency is `pytest`.
 
 ## Folder Structure
 
-```text
-Bindal-OS/
-├── main.py
-├── client/
-│   ├── __init__.py
-│   └── app.py
-├── server/
-│   ├── __init__.py
-│   ├── file_loader.py
-│   └── search_engine/
-│       ├── __init__.py
-│       ├── benchmark.py
-│       ├── indexing.py
-│       ├── saveIndex.py
-│       ├── search.py
-│       ├── snippets.py
-│       └── tokenizer.py
-├── data/
-├── test/
-│   └── engine_test.py
-├── pyproject.toml
-├── uv.lock
-└── .gitignore
-```
-
-`main.py` is only the application entry point. It imports `run` from the
-client package.
-
-`client/app.py` is the current console frontend. It loads the dataset, builds
-the indexes, defines sample MongoDB queries, runs searches, and prints timing,
-filenames, and snippets.
-
-`server/file_loader.py` is responsible for reading only `.txt` documents from
-the data directory. Generated JSON indexes are intentionally not treated as
-search documents.
+See [the current layout](layout.md). The console entry point is `main.py`,
+which calls `scripts/app.py`. The web interface is in `frontend/`.
 
 ## Search Pipeline
 
@@ -162,8 +132,8 @@ returns both the function result and elapsed time.
 `saveIndex.py` stores these generated files:
 
 ```text
-data/inverted_index.json
-data/ranked_inverted_index.json
+data/indexes/inverted_index.json
+data/indexes/ranked_inverted_index.json
 ```
 
 ### Stopword Removal
@@ -205,7 +175,7 @@ search for `system nlp` therefore ranks `file2.txt` above `file1.txt`.
 
 `search_tfidf()` sums the TF-IDF weights for the unique matching query tokens
 and returns files from the highest score to the lowest. `client/app.py` builds
-this index, saves it as `data/tfidf_index.json`, and prints its result beside
+this index, saves it as `data/indexes/tfidf_index.json`, and prints its result beside
 the ranked inverted-index result.
 
 All document tokens pass through stopword filtering before the inverted,
@@ -214,7 +184,7 @@ ranked, and TF-IDF indexes are built. This keeps common terms such as `the`,
 is not changed, so snippets remain readable. The client rebuilds and
 overwrites all generated JSON indexes each time `main.py` runs.
 
-The TF-IDF test in `test/engine_test.py` uses the `system`/`nlp` example above
+The TF-IDF test in `tests/engine_test.py` uses the `system`/`nlp` example above
 to verify that the document containing the rare term ranks first.
 
 
@@ -298,7 +268,7 @@ files manually before rebuilding them.
 
 ## Tests
 
-`test/engine_test.py` tests the major behavior:
+`tests/engine_test.py` tests the major behavior:
 
 - Tokenization and punctuation handling
 - File loading and directory ignoring
@@ -312,7 +282,7 @@ files manually before rebuilding them.
 - Index file creation and non-overwriting behavior
 - Search timing
 
-The pytest configuration points to `test/` and uses local ignored directories
+The pytest configuration points to `tests/` and uses local ignored directories
 for temporary files and cache data.
 
 ## Current Limitations
