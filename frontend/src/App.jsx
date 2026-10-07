@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import DocumentViewer from './DocumentViewer'
+import AISummary from './AISummary'
 
 const API_BASE = import.meta.env.VITE_API_URL ?? ''
 
@@ -177,6 +178,10 @@ function App() {
                 About {resultMeta.count} result
                 {resultMeta.count === 1 ? '' : 's'} for “{activeQuery}”
               </p>
+            )}
+
+            {!loading && !error && results.length > 0 && (
+              <AISummary key={activeQuery} query={activeQuery} />
             )}
 
             {!loading && !error && results.length === 0 && resultMeta && (

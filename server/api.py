@@ -1,5 +1,6 @@
 """FastAPI backend for hybrid retrieval and cross-encoder reranking."""
 import logging
+from functools import lru_cache
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any
@@ -15,6 +16,9 @@ from server.search_engine import (
 )
 from server.hybrid_search.service import hybrid_search, load_crawler_documents
 from server.semantic_search.vector_store import connect_qdrant
+from server.ai.rag import build_context
+from server.ai.rag.generator import RAGGenerator, GenerationResponse, GenerationError
+from server.ai.providers.gemini import ConfigurationError
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
@@ -158,3 +162,33 @@ def get_document(file_name: str = Query(..., min_length=1)) -> dict[str, str]:
     if file_name not in state.file_data:
         raise HTTPException(status_code=404, detail="Document not found")
     return {"file_name": file_name, "text": state.file_data[file_name]}
+
+
+class SummaryRequest(BaseModel):
+    query: str = Field(min_length=1, max_length=4000)
+    top_k: int = Field(default=3, ge=1, le=5)
+
+
+@lru_cache(maxsize=1)
+def get_summary_generator() -> RAGGenerator:
+    return RAGGenerator()
+
+
+@app.post("/api/summary", response_model=GenerationResponse)
+def summarize(request: SummaryRequest) -> GenerationResponse:
+    """Explicit opt-in generation from server-retrieved evidence only."""
+    query = request.query.strip()
+    if not query:
+        raise HTTPException(status_code=400, detail="Query must not be empty")
+    retrieved = search(q=query, top_k=10, candidate_k=20, semantic_k=200)
+    context = build_context(query, [hit.model_dump() for hit in retrieved.results], top_k=request.top_k)
+    try:
+        return get_summary_generator().generate(query, context)
+    except ConfigurationError:
+        raise HTTPException(status_code=503, detail="AI summary is not configured. Set a Gemini API key on the server.") from None
+    except GenerationError:
+        raise HTTPException(status_code=502, detail="AI summary could not be generated. Please try again.") from None
+    except ValueError:
+        raise HTTPException(status_code=422, detail="The retrieved context is too large for a summary. Try a more specific query.") from None
+    except Exception:
+        raise HTTPException(status_code=503, detail="AI summary is temporarily unavailable. Please try again.") from None

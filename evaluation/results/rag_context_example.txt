@@ -1,0 +1,45 @@
+[Source 1]
+Title: SQL Injection - GeeksforGeeks
+Document: web-7984e367d313b6d93cfc5ce634514d993b1679cac56bb561354632cb69029e3d-050eab1da2b15f50bc99635bf2805bcdd2a3efe404558cb122e9276b7a1128b5
+Source: gfg
+Domain: www.geeksforgeeks.org
+URL: https://www.geeksforgeeks.org/sql/sql-injection/
+Chunk ID: web-7984e367d313b6d93cfc5ce634514d993b1679cac56bb561354632cb69029e3d-050eab1da2b15f50bc99635bf2805bcdd2a3efe404558cb122e9276b7a1128b5::chunk-0
+Retrieval rank: 1
+Content:
+SQL Injection
+
+Last Updated : 30 Apr, 2026
+
+SQL Injection (SQLi) is a web application vulnerability where attackers inject malicious SQL queries through user inputs to manipulate backend database operations, potentially leading to unauthorized access, modification, or deletion of data. It is one of the most critical and widely exploited security flaws in web applications.
+
+Exploits improper validation of user input in SQL queries
+Can expose sensitive data such as passwords, emails and financial records
+Enables bypass of authentication mechanisms
+May result in full database or server compromise
+Prevented through secure coding and input sanitization practices
+
+[Source 2]
+Title: Use of SQLMAP to test a website for SQL Injection vulnerability - GeeksforGeeks
+Document: web-3860fce3db058ebbf99755cd2ef57f78693d134b32cc938ee27703aefdc4d03b-2b2b45735471c2b77f1e235dde30fd0e66dddf8c784a4952f1237b6e8bf97de5
+Source: gfg
+Domain: www.geeksforgeeks.org
+URL: https://www.geeksforgeeks.org/blogs/use-sqlmap-test-website-sql-injection-vulnerability/
+Chunk ID: web-3860fce3db058ebbf99755cd2ef57f78693d134b32cc938ee27703aefdc4d03b-2b2b45735471c2b77f1e235dde30fd0e66dddf8c784a4952f1237b6e8bf97de5::chunk-0
+Retrieval rank: 2
+Content:
+Use of SQLMAP to test a website for SQL Injection vulnerability
+
+Last Updated : 11 Aug, 2026
+
+SQL Injection (SQLi) is a code injection attack in which an attacker inserts malicious SQL statements into an application's input fields to manipulate or access the underlying database. If an application does not properly validate user input, attackers may be able to retrieve, modify, or delete sensitive data. SQLMap is an open-source penetration testing tool that automates the detection and exploitation of SQL injection vulnerabilities in web applications.
+
+For example, consider the following PHP code segment:
+
+$variable = $_POST['input'];$conn->query("INSERT INTO users (name) VALUES ('$variable')");
+
+If the user enters "value'); DROP TABLE table;--" as the input, the query becomes
+
+INSERT INTO users (name) VALUES ('value'); DROP TABLE users;--
+
+which is undesirable for us, as here the user input is directly compiled along with the pre-written sql query. Hence the user will be able to enter an sql query required to manipulate the database.

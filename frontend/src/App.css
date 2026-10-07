@@ -342,6 +342,25 @@
   border: 0;
 }
 
+.ai-summary__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.ai-summary__answer {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.ai-summary__sources {
+  padding-left: 0;
+  list-style: none;
+  line-height: 1.8;
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;

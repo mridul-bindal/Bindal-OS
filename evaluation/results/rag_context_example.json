@@ -1,0 +1,36 @@
+{
+  "query": "What is SQL injection?",
+  "chunks": [
+    {
+      "source_id": 1,
+      "rank": 1,
+      "document_name": "web-7984e367d313b6d93cfc5ce634514d993b1679cac56bb561354632cb69029e3d-050eab1da2b15f50bc99635bf2805bcdd2a3efe404558cb122e9276b7a1128b5",
+      "title": "SQL Injection - GeeksforGeeks",
+      "url": "https://www.geeksforgeeks.org/sql/sql-injection/",
+      "source": "gfg",
+      "domain": "www.geeksforgeeks.org",
+      "chunk_id": "web-7984e367d313b6d93cfc5ce634514d993b1679cac56bb561354632cb69029e3d-050eab1da2b15f50bc99635bf2805bcdd2a3efe404558cb122e9276b7a1128b5::chunk-0",
+      "text": "SQL Injection\n\nLast Updated : 30 Apr, 2026\n\nSQL Injection (SQLi) is a web application vulnerability where attackers inject malicious SQL queries through user inputs to manipulate backend database operations, potentially leading to unauthorized access, modification, or deletion of data. It is one of the most critical and widely exploited security flaws in web applications.\n\nExploits improper validation of user input in SQL queries\nCan expose sensitive data such as passwords, emails and financial records\nEnables bypass of authentication mechanisms\nMay result in full database or server compromise\nPrevented through secure coding and input sanitization practices",
+      "bm25_score": 32.622,
+      "semantic_score": 0.79085445,
+      "rrf_score": 0.03278688524590164,
+      "reranker_score": 10.232311248779297
+    },
+    {
+      "source_id": 2,
+      "rank": 2,
+      "document_name": "web-3860fce3db058ebbf99755cd2ef57f78693d134b32cc938ee27703aefdc4d03b-2b2b45735471c2b77f1e235dde30fd0e66dddf8c784a4952f1237b6e8bf97de5",
+      "title": "Use of SQLMAP to test a website for SQL Injection vulnerability - GeeksforGeeks",
+      "url": "https://www.geeksforgeeks.org/blogs/use-sqlmap-test-website-sql-injection-vulnerability/",
+      "source": "gfg",
+      "domain": "www.geeksforgeeks.org",
+      "chunk_id": "web-3860fce3db058ebbf99755cd2ef57f78693d134b32cc938ee27703aefdc4d03b-2b2b45735471c2b77f1e235dde30fd0e66dddf8c784a4952f1237b6e8bf97de5::chunk-0",
+      "text": "Use of SQLMAP to test a website for SQL Injection vulnerability\n\nLast Updated : 11 Aug, 2026\n\nSQL Injection (SQLi) is a code injection attack in which an attacker inserts malicious SQL statements into an application's input fields to manipulate or access the underlying database. If an application does not properly validate user input, attackers may be able to retrieve, modify, or delete sensitive data. SQLMap is an open-source penetration testing tool that automates the detection and exploitation of SQL injection vulnerabilities in web applications.\n\nFor example, consider the following PHP code segment:\n\n$variable = $_POST['input'];$conn->query(\"INSERT INTO users (name) VALUES ('$variable')\");\n\nIf the user enters \"value'); DROP TABLE table;--\" as the input, the query becomes\n\nINSERT INTO users (name) VALUES ('value'); DROP TABLE users;--\n\nwhich is undesirable for us, as here the user input is directly compiled along with the pre-written sql query. Hence the user will be able to enter an sql query required to manipulate the database.",
+      "bm25_score": 32.5241,
+      "semantic_score": 0.6533921,
+      "rrf_score": 0.031754032258064516,
+      "reranker_score": 8.459891319274902
+    }
+  ],
+  "context": "[Source 1]\nTitle: SQL Injection - GeeksforGeeks\nDocument: web-7984e367d313b6d93cfc5ce634514d993b1679cac56bb561354632cb69029e3d-050eab1da2b15f50bc99635bf2805bcdd2a3efe404558cb122e9276b7a1128b5\nSource: gfg\nDomain: www.geeksforgeeks.org\nURL: https://www.geeksforgeeks.org/sql/sql-injection/\nChunk ID: web-7984e367d313b6d93cfc5ce634514d993b1679cac56bb561354632cb69029e3d-050eab1da2b15f50bc99635bf2805bcdd2a3efe404558cb122e9276b7a1128b5::chunk-0\nRetrieval rank: 1\nContent:\nSQL Injection\n\nLast Updated : 30 Apr, 2026\n\nSQL Injection (SQLi) is a web application vulnerability where attackers inject malicious SQL queries through user inputs to manipulate backend database operations, potentially leading to unauthorized access, modification, or deletion of data. It is one of the most critical and widely exploited security flaws in web applications.\n\nExploits improper validation of user input in SQL queries\nCan expose sensitive data such as passwords, emails and financial records\nEnables bypass of authentication mechanisms\nMay result in full database or server compromise\nPrevented through secure coding and input sanitization practices\n\n[Source 2]\nTitle: Use of SQLMAP to test a website for SQL Injection vulnerability - GeeksforGeeks\nDocument: web-3860fce3db058ebbf99755cd2ef57f78693d134b32cc938ee27703aefdc4d03b-2b2b45735471c2b77f1e235dde30fd0e66dddf8c784a4952f1237b6e8bf97de5\nSource: gfg\nDomain: www.geeksforgeeks.org\nURL: https://www.geeksforgeeks.org/blogs/use-sqlmap-test-website-sql-injection-vulnerability/\nChunk ID: web-3860fce3db058ebbf99755cd2ef57f78693d134b32cc938ee27703aefdc4d03b-2b2b45735471c2b77f1e235dde30fd0e66dddf8c784a4952f1237b6e8bf97de5::chunk-0\nRetrieval rank: 2\nContent:\nUse of SQLMAP to test a website for SQL Injection vulnerability\n\nLast Updated : 11 Aug, 2026\n\nSQL Injection (SQLi) is a code injection attack in which an attacker inserts malicious SQL statements into an application's input fields to manipulate or access the underlying database. If an application does not properly validate user input, attackers may be able to retrieve, modify, or delete sensitive data. SQLMap is an open-source penetration testing tool that automates the detection and exploitation of SQL injection vulnerabilities in web applications.\n\nFor example, consider the following PHP code segment:\n\n$variable = $_POST['input'];$conn->query(\"INSERT INTO users (name) VALUES ('$variable')\");\n\nIf the user enters \"value'); DROP TABLE table;--\" as the input, the query becomes\n\nINSERT INTO users (name) VALUES ('value'); DROP TABLE users;--\n\nwhich is undesirable for us, as here the user input is directly compiled along with the pre-written sql query. Hence the user will be able to enter an sql query required to manipulate the database."
+}

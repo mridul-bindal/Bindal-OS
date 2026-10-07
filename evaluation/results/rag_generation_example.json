@@ -1,0 +1,32 @@
+{
+  "query": "What is SQL injection?",
+  "answer": "SQL Injection (SQLi) is a web application vulnerability and a code injection attack in which attackers inject malicious SQL queries or statements through user inputs to manipulate or access operations on a backend database [1, 2, 3]. This occurs when web applications fail to properly validate user input [1, 2, 3].\n\nSuccessful SQL injection can lead to severe consequences, including unauthorized access, modification, or deletion of data, exposure of sensitive information such as passwords, emails, and financial records, and the bypass of authentication mechanisms [1, 2, 3]. It can potentially result in the full compromise of a database or server, and many data breaches are attributed to SQL injection [1, 3]. Preventing SQLi involves secure coding and input sanitization practices [1].",
+  "sources": [
+    {
+      "source_number": 1,
+      "title": "SQL Injection - GeeksforGeeks",
+      "url": "https://www.geeksforgeeks.org/sql/sql-injection/",
+      "domain": "www.geeksforgeeks.org",
+      "source": "gfg"
+    },
+    {
+      "source_number": 2,
+      "title": "Use of SQLMAP to test a website for SQL Injection vulnerability - GeeksforGeeks",
+      "url": "https://www.geeksforgeeks.org/blogs/use-sqlmap-test-website-sql-injection-vulnerability/",
+      "domain": "www.geeksforgeeks.org",
+      "source": "gfg"
+    },
+    {
+      "source_number": 3,
+      "title": "SQL injection - Glossary | MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/SQL_Injection",
+      "domain": "developer.mozilla.org",
+      "source": "mdn"
+    }
+  ],
+  "insufficient_context": false,
+  "provider": "gemini",
+  "model": "gemini-2.5-flash",
+  "generation_seconds": 4.741241899988381,
+  "total_pipeline_seconds": 123.53192900001886
+}
